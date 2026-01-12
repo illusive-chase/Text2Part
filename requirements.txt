@@ -1,0 +1,7 @@
+torch==2.7.1
+torchvision==0.22.1
+transformers>=4.51.3
+git+https://github.com/huggingface/diffusers
+tyro>=1.0.3
+accelerate>=1.12.0
+pillow>=10.2.0
