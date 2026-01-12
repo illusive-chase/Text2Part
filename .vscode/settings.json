@@ -1,0 +1,31 @@
+{
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/__pycache__/": true,
+      "**/.ipynb_checkpoints": true,
+      "**/*.ipynb": true,
+      "**/temp*": true
+    },
+    "[python]": {
+        "editor.defaultFormatter": "eeyore.yapf",
+        "editor.formatOnType": false,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports.ruff": "explicit",
+            "source.fixAll.ruff": "explicit"
+        }
+    },
+    "editor.rulers": [120],
+    "python.analysis.typeCheckingMode": "off",
+    "python.analysis.diagnosticMode": "openFilesOnly",
+    "basedpyright.analysis.diagnosticMode": "openFilesOnly",
+    "basedpyright.analysis.typeCheckingMode": "off",
+    "basedpyright.analysis.exclude": [
+      "**/.git/objects/**",
+      "**/.git/subtree-cache/**",
+      "**/__pycache__/",
+      "**/.ipynb_checkpoints",
+      "**/*.ipynb",
+      "**/temp*"
+    ]
+}
