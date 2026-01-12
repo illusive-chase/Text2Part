@@ -5,3 +5,37 @@ git+https://github.com/huggingface/diffusers
 tyro>=1.0.3
 accelerate>=1.12.0
 pillow>=10.2.0
+
+# hunyuan3d
+ninja>=1.13.0
+pybind11<3
+pytorch-lightning>=2.6.0
+scipy>=1.17.0
+einops>=0.8.1
+pandas>=2.3.3
+opencv-python==4.10.0.84
+opencv-python-headless==4.10.0.84
+imageio>=2.37.2
+scikit-image>=0.26.0
+rembg==2.0.65
+realesrgan>=0.3.0
+tb_nightly>=2.21.0a20251023
+trimesh>=4.11.0
+pymeshlab==2022.2.post3
+pygltflib>=1.16.5
+xatlas>=0.0.11
+open3d==0.18.0
+omegaconf>=2.3.0
+configargparse>=1.7.1
+cupy-cuda12x>=13.6.0
+bpy~=4.0
+onnxruntime>=1.23.2
+pydantic>=2.12.5
+timm>=1.0.24
+pythreejs>=2.4.2
+torchdiffeq>=0.2.5
+deepspeed>=0.18.4
+# pip install third_party/hunyuan3d/hy3dpaint/custom_rasterizer
+# bash -c "cd third_party/hunyuan3d/hy3dpaint/DifferentiableRenderer && bash compile_mesh_painter.sh"
+# wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth -P third_party/hunyuan3d/hy3dpaint/ckpt
+# sudo apt-get install libsm6 libxrender1 libxext-dev libgl1-mesa-glx
