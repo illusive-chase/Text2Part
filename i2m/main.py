@@ -28,6 +28,7 @@ class Image2Mesh:
     ) -> trimesh.Trimesh:
         return self.pipe(
             image=str(image),
+            octree_resolution=256,
             generator=torch.Generator(device=self.device).manual_seed(seed),
         )[0]
 
@@ -39,7 +40,7 @@ if __name__ == '__main__':
         output: Path,
         seed: int = 42,
     ) -> None:
-        assert output.suffix in ['.obj', '.glb']
+        assert output.suffix in ['.obj', '.glb', '.ply']
         model = Image2Mesh()
         model.init('cuda')
         mesh = model.inference(image, seed=seed)
