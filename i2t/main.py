@@ -38,13 +38,12 @@ class Image2Texture:
         remesh: bool = False,
     ) -> trimesh.Trimesh:
         with tempfile.TemporaryDirectory() as tmpdir:
-            self.pipe(
+            mesh = self.pipe(
                 mesh_path=str(mesh),
                 image_path=str(image),
                 output_mesh_path=str(Path(tmpdir) / 'temp.obj'),
                 use_remesh=remesh,
             )
-            mesh = trimesh.load_mesh(Path(tmpdir) / 'temp.obj')
         return mesh
 
 if __name__ == '__main__':

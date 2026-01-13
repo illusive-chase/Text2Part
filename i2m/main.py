@@ -7,10 +7,12 @@ from pathlib import Path
 import torch
 import trimesh
 import tyro
+from PIL import Image
 
 sys.path.insert(0, './third_party/hunyuan3d/hy3dshape')
 
 from third_party.hunyuan3d.hy3dshape.hy3dshape.pipelines import Hunyuan3DDiTFlowMatchingPipeline
+from third_party.hunyuan3d.hy3dshape.hy3dshape.rembg import BackgroundRemover
 
 
 @dataclass
@@ -24,11 +26,16 @@ class Image2Mesh:
         self,
         image: Path,
         *,
+        remove_bg: bool = True,
         seed: int = 42,
     ) -> trimesh.Trimesh:
+        image = Image.open(image)
+        if remove_bg:
+            rembg = BackgroundRemover()
+            image = rembg(image)
         return self.pipe(
-            image=str(image),
-            octree_resolution=256,
+            image=image,
+            octree_resolution=384,
             generator=torch.Generator(device=self.device).manual_seed(seed),
         )[0]
 
