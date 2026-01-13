@@ -1,18 +1,49 @@
-import sys
+from __future__ import annotations
 
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+
+import torch
 import trimesh
+import tyro
 
 sys.path.insert(0, './third_party/hunyuan3d/hy3dshape')
-sys.path.insert(0, './third_party/hunyuan3d/hy3dpaint')
 
-from third_party.hunyuan3d.hy3dpaint.textureGenPipeline import Hunyuan3DPaintConfig, Hunyuan3DPaintPipeline
 from third_party.hunyuan3d.hy3dshape.hy3dshape.pipelines import Hunyuan3DDiTFlowMatchingPipeline
 
-# let's generate a mesh first
-shape_pipeline = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained('tencent/Hunyuan3D-2.1')
-mesh_untextured: trimesh.Trimesh = shape_pipeline(image='temp.png')[0]
-mesh_untextured.export('temp.glb')
 
-if 0:
-    paint_pipeline = Hunyuan3DPaintPipeline(Hunyuan3DPaintConfig(max_num_view=6, resolution=512))
-    mesh_textured = paint_pipeline('mesh_path', image_path='assets/demo.png')
+@dataclass
+class Image2Mesh:
+
+    def init(self, device: torch.device) -> None:
+        self.pipe = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained('tencent/Hunyuan3D-2.1', device=device)
+        self.device = device
+
+    def inference(
+        self,
+        image: Path,
+        *,
+        seed: int = 42,
+    ) -> trimesh.Trimesh:
+        return self.pipe(
+            image=str(image),
+            generator=torch.Generator(device=self.device).manual_seed(seed),
+        )[0]
+
+
+if __name__ == '__main__':
+
+    def main(
+        image: Path,
+        output: Path,
+        seed: int = 42,
+    ) -> None:
+        assert output.suffix in ['.obj', '.glb']
+        model = Image2Mesh()
+        model.init('cuda')
+        mesh = model.inference(image, seed=seed)
+        output.parent.mkdir(exist_ok=True, parents=True)
+        mesh.export(output)
+
+    tyro.cli(main)

@@ -44,7 +44,7 @@ class Text2Image:
             height=height,
             num_inference_steps=50,
             true_cfg_scale=4.0,
-            generator=torch.Generator(device=self.device).manual_seed(seed)
+            generator=torch.Generator(device=self.device).manual_seed(seed),
         ).images[0]
         return image
 
