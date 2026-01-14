@@ -50,6 +50,13 @@ if __name__ == '__main__':
         model = Mesh2Part()
         model.init('cuda')
         part = model.inference(mesh, seed=seed)
-        part.export(output)
+        if output.suffix == '.glb':
+            part.export(output)
+        else:
+            assert not output.is_file()
+            output.mkdir(exist_ok=True, parents=True)
+            for i, m in enumerate(part.geometry.values()):
+                if isinstance(m, trimesh.Trimesh):
+                    m.export(output / f'{i:02d}.ply')
 
     tyro.cli(main)
