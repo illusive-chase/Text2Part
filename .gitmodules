@@ -1,3 +1,6 @@
 [submodule "third_party/hunyuan3d"]
 	path = third_party/hunyuan3d
 	url = git@github.com:illusive-chase/Hunyuan3D-2.1.git
+[submodule "third_party/hunyuan3dpart"]
+	path = third_party/hunyuan3dpart
+	url = git@github.com:illusive-chase/Hunyuan3D-Part.git

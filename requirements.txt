@@ -41,3 +41,20 @@ git+https://github.com/Stability-AI/stable-fast-3d/#subdirectory=uv_unwrapper
 # bash -c "cd third_party/hunyuan3d/hy3dpaint/DifferentiableRenderer && bash compile_mesh_painter.sh"
 # wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth -P third_party/hunyuan3d/hy3dpaint/ckpt
 # sudo apt-get install libsm6 libxrender1 libxext-dev libgl1-mesa-glx
+
+# sonata
+spconv-cu124>=2.3.8
+git+https://github.com/facebookresearch/sonata
+torch-scatter>=2.1.2
+torch-cluster>=1.6.3
+# pip install "flash_attn==2.7.4.post1" --no-build-isolation
+
+# p3sam
+viser>=1.0.17
+fpsample>=1.0.2
+gradio>=6.3.0
+# pip install third_party/hunyuan3dpart/P3-SAM/utils/chamfer3D
+
+# xpart
+easydict>=1.13
+scikit-learn>=1.8.0
