@@ -47,6 +47,7 @@ spconv-cu124>=2.3.8
 git+https://github.com/facebookresearch/sonata
 torch-scatter>=2.1.2
 torch-cluster>=1.6.3
+wheel>=0.46.3
 # pip install "flash_attn==2.7.4.post1" --no-build-isolation
 
 # p3sam
