@@ -8,3 +8,4 @@ mkdir ~/.u2net -p && wget https://github.com/danielgatis/rembg/releases/download
 hf download tencent/Hunyuan3D-Part --repo-type model
 hf download facebook/sonata --repo-type model
 mkdir -p ~/.cache/xpart/tencent/Hunyuan3D-Part/ && ln -s .../.cache/Hunyuan3D-Part/xpart.pt ~/.cache/xpart/tencent/Hunyuan3D-Part/xpart.pt
+# mkdir -p ~/.cache/xpart/tencent && ln -s /home/tiger/Hunyuan3D-Part/.cache/Hunyuan3D-Part/ ~/.cache/xpart/tencent/
