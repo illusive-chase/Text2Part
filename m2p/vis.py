@@ -5,7 +5,7 @@ from pathlib import Path
 import trimesh
 import tyro
 import viser
-from matplotlib.colors import TABLEAU_COLORS
+from matplotlib import colormaps
 
 if __name__ == '__main__':
 
@@ -22,9 +22,10 @@ if __name__ == '__main__':
             assert parts.suffix == '.glb'
             scene = trimesh.load_scene(parts)
 
-        colormap = list(TABLEAU_COLORS.values())
+        colormap = list(colormaps.get_cmap('tab20').colors)
 
         server = viser.ViserServer(port=port)
+        server.scene.set_up_direction('+y')
         for i, m in enumerate(scene.geometry.values()):
             if isinstance(m, trimesh.Trimesh):
                 server.scene.add_mesh_simple(
@@ -33,5 +34,7 @@ if __name__ == '__main__':
                     name=f'part_{i:02d}',
                     color=colormap[i],
                 )
+
+        server.sleep_forever()
 
     tyro.cli(main)
