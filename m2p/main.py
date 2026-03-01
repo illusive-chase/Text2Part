@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import sys
 from dataclasses import dataclass
+from itertools import chain
 from pathlib import Path
+from typing import List
 
 import torch
 import trimesh
@@ -25,6 +27,11 @@ class Mesh2Part:
         self.pipe.to(device=device, dtype=torch.float32)
         self.device = device
 
+    @staticmethod
+    def process(mesh: trimesh.Trimesh) -> List[trimesh.Trimesh]:
+        total_face = mesh.faces.shape[0]
+        return [m for m in mesh.split(only_watertight=False) if m.faces.shape[0] > total_face * 0.02]
+
     def inference(
         self,
         mesh: Path,
@@ -38,7 +45,10 @@ class Mesh2Part:
             seed=seed,
             generator=torch.Generator(device=self.device).manual_seed(seed),
         )
-        return obj_mesh
+        result = trimesh.Scene()
+        for m in chain.from_iterable(self.process(m) for m in obj_mesh.geometry.values()):
+            result.add_geometry(m)
+        return result
 
 if __name__ == '__main__':
 

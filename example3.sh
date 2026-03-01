@@ -21,3 +21,9 @@ for idx in ${lst[@]}
 do
 python t2i/main.py --prompt "A realistic desk with two storage. The left part is a 3-layer drawers. The right part is not a drawer but a door-based cabinet. The doors are open and the drawers are pulled. The perspective is slightly tilted and from above, allowing most of the object's details to be seen without significant obstruction. Background: pure white." --output outputs/gen3/desk$idx/img.png --seed $idx --cfg 1.5
 done
+
+for idx in ${lst[@]}
+do
+python i2m/main.py --image outputs/gen3/desk$idx/img.png --output outputs/gen3/desk$idx/mesh.ply
+python m2p/main.py --mesh outputs/gen3/desk$idx/mesh.ply --output outputs/gen3/desk$idx/parts
+done
