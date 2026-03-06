@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import open3d as o3d
 import trimesh
 import tyro
 import viser
@@ -17,9 +18,10 @@ HIGHLIGHT_COLOR = np.array([255, 255, 100], dtype=np.uint8)
 
 class AnnotationState:
 
-    def __init__(self, parts_path: Path, server: viser.ViserServer) -> None:
+    def __init__(self, parts_path: Path, server: viser.ViserServer, max_faces: int = 10000) -> None:
         self.parts_path = parts_path
         self.server = server
+        self.max_faces = max_faces
         self.colormap = [
             (np.array(c[:3]) * 255).astype(np.uint8)
             for c in colormaps.get_cmap('tab20').colors
@@ -42,7 +44,6 @@ class AnnotationState:
         self.hinges: list[dict] = []
         # preview state
         self._preview_idx: int | None = None
-        self._preview_original: trimesh.Trimesh | None = None
         self._preview_slider: Any = None
         self._preview_axis_handle: Any = None
 
@@ -54,10 +55,26 @@ class AnnotationState:
         else:
             self._load_parts_from_glb()
 
+    def _simplify_mesh(self, mesh: trimesh.Trimesh, name: str) -> trimesh.Trimesh:
+        if self.max_faces <= 0 or len(mesh.faces) <= self.max_faces:
+            return mesh
+        orig = len(mesh.faces)
+        o3d_mesh = o3d.geometry.TriangleMesh()
+        o3d_mesh.vertices = o3d.utility.Vector3dVector(mesh.vertices)
+        o3d_mesh.triangles = o3d.utility.Vector3iVector(mesh.faces)
+        o3d_mesh = o3d_mesh.simplify_quadric_decimation(target_number_of_triangles=self.max_faces)
+        simplified = trimesh.Trimesh(
+            vertices=np.asarray(o3d_mesh.vertices),
+            faces=np.asarray(o3d_mesh.triangles),
+        )
+        print(f"[simplify] {name}: {orig} -> {len(simplified.faces)} faces")
+        return simplified
+
     def _load_parts_from_dir(self) -> None:
         for p in sorted(self.parts_path.glob('*.ply')):
             mesh = trimesh.load(p, force='mesh')
             name = p.stem
+            mesh = self._simplify_mesh(mesh, name)
             self.parts[name] = mesh
             self.part_colors[name] = self._color_idx
             self._color_idx = (self._color_idx + 1) % len(self.colormap)
@@ -66,6 +83,7 @@ class AnnotationState:
         scene = trimesh.load(str(self.parts_path))
         if isinstance(scene, trimesh.Trimesh):
             # Single mesh, no scene graph
+            scene = self._simplify_mesh(scene, '00')
             self.parts['00'] = scene
             self.part_colors['00'] = self._color_idx
             self._color_idx = (self._color_idx + 1) % len(self.colormap)
@@ -74,6 +92,7 @@ class AnnotationState:
             transform, geom_name = scene.graph[name]
             mesh = scene.geometry[geom_name].copy()
             mesh.apply_transform(transform)
+            mesh = self._simplify_mesh(mesh, name)
             self.parts[name] = mesh
             self.part_colors[name] = self._color_idx
             self._color_idx = (self._color_idx + 1) % len(self.colormap)
@@ -107,9 +126,9 @@ class AnnotationState:
 
     def _refresh_mesh(self, name: str) -> None:
         if name in self.handles:
-            self.handles[name].remove()
-            del self.handles[name]
-        if name in self.parts:
+            color = HIGHLIGHT_COLOR if name in self.selected else self.colormap[self.part_colors[name]]
+            self.handles[name].color = color
+        elif name in self.parts:
             self._add_mesh(name, self.parts[name], selected=name in self.selected)
 
     def refresh_all(self) -> None:
@@ -233,7 +252,6 @@ class AnnotationState:
         hinge = self.hinges[idx]
         child_name = hinge['child']
         self._preview_idx = idx
-        self._preview_original = self.parts[child_name].copy()
 
         # Create slider
         self._preview_slider = self.server.gui.add_slider(
@@ -274,37 +292,37 @@ class AnnotationState:
             self._preview_axis_handle.remove()
             self._preview_axis_handle = None
 
-        # Restore original child mesh
+        # Restore child handle transform to identity
         child_name = self.hinges[self._preview_idx]['child']
-        self.parts[child_name] = self._preview_original
-        self._refresh_mesh(child_name)
+        if child_name in self.handles:
+            self.handles[child_name].wxyz = np.array([1.0, 0.0, 0.0, 0.0])
+            self.handles[child_name].position = np.array([0.0, 0.0, 0.0])
 
         self._preview_idx = None
-        self._preview_original = None
 
     def _apply_hinge_angle(self, angle: float) -> None:
-        """Apply rotation to child mesh for preview (T_back @ R @ T_to_origin)."""
-        if self._preview_idx is None or self._preview_original is None:
+        """Apply rotation to child mesh for preview via scene node transform."""
+        if self._preview_idx is None:
             return
 
         hinge = self.hinges[self._preview_idx]
+        child_name = hinge['child']
+        if child_name not in self.handles:
+            return
+
         pivot = hinge['pivot']
         axis = hinge['axis']
 
-        T_to_origin = trimesh.transformations.translation_matrix(-pivot)
-        R = trimesh.transformations.rotation_matrix(angle, axis)
-        T_back = trimesh.transformations.translation_matrix(pivot)
-        T = T_back @ R @ T_to_origin
+        # Quaternion for rotation about axis (w, x, y, z)
+        wxyz = trimesh.transformations.quaternion_about_axis(angle, axis)
+        # Position offset so that the rotation is about pivot, not origin:
+        #   world = R @ local + position  =>  position = pivot - R @ pivot
+        R = trimesh.transformations.quaternion_matrix(wxyz)[:3, :3]
+        position = pivot - R @ pivot
 
-        rotated = self._preview_original.copy()
-        rotated.apply_transform(T)
-
-        # Update scene (remove + re-add)
-        child_name = hinge['child']
-        if child_name in self.handles:
-            self.handles[child_name].remove()
-            del self.handles[child_name]
-        self._add_mesh(child_name, rotated, selected=False)
+        handle = self.handles[child_name]
+        handle.wxyz = wxyz
+        handle.position = position
 
     def generate_urdf(self) -> Path:
         """Generate a URDF file for all annotated hinges."""
@@ -474,7 +492,16 @@ if __name__ == '__main__':
     def main(
         parts: Path,
         port: int = 6789,
+        max_faces: int = 10000,
     ) -> None:
+        """
+        Annotate parts with merge and hinge tools.
+
+        Args:
+            parts: Path to a directory of .ply files or a .glb/.gltf file.
+            port: Viser server port.
+            max_faces: Max faces per part mesh after simplification. Set 0 to disable.
+        """
         assert parts.exists(), f'{parts} does not exist'
         assert parts.is_dir() or parts.suffix in ('.glb', '.gltf'), \
             f'{parts} must be a directory of .ply files or a .glb/.gltf file'
@@ -482,7 +509,7 @@ if __name__ == '__main__':
         server = viser.ViserServer(port=port)
         server.scene.set_up_direction('+y')
 
-        state = AnnotationState(parts, server)
+        state = AnnotationState(parts, server, max_faces=max_faces)
 
         # --- GUI ---
         with server.gui.add_folder('Selection'):
