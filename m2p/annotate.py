@@ -12,7 +12,7 @@ import viser
 from matplotlib import colormaps
 from scipy.spatial import cKDTree
 
-HIGHLIGHT_COLOR = np.array([255, 255, 100, 255], dtype=np.uint8)
+HIGHLIGHT_COLOR = np.array([255, 255, 100], dtype=np.uint8)
 
 
 class AnnotationState:
@@ -85,20 +85,11 @@ class AnnotationState:
         return self.parts_path.parent
 
     def _add_mesh(self, name: str, mesh: trimesh.Trimesh, selected: bool = False) -> None:
-        vis_mesh = mesh.copy()
-        if selected:
-            vis_mesh.visual = trimesh.visual.ColorVisuals()
-            vis_mesh.visual.face_colors = HIGHLIGHT_COLOR
-        else:
-            vis_mesh.visual = trimesh.visual.ColorVisuals()
-            color = np.append(self.colormap[self.part_colors[name]], 255)
-            vis_mesh.visual.face_colors = color
-
-        handle = self.server.scene.add_mesh_trimesh(
+        handle = self.server.scene.add_mesh_simple(
             name=name,
-            mesh=vis_mesh,
-            cast_shadow=False,
-            receive_shadow=False,
+            vertices=mesh.vertices,
+            faces=mesh.faces,
+            color=HIGHLIGHT_COLOR if selected else self.colormap[self.part_colors[name]],
         )
         handle.on_click(lambda event: self._handle_click(event))
         self.handles[name] = handle
