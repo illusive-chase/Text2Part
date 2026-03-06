@@ -1,0 +1,3202 @@
+{
+  "faucet0": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with all expected parts: handle, body, spout, and base. No severe missing or chaotic geometry is visible."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object. The object appears to be floating, which is typical for a clean 3D render without printing artifacts."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The spout and the surrounding green and light blue parts appear to be merged into a single colored region, suggesting that the spout should be a separate component for proper articulation. The light blue and green areas seem to be part of the same mesh rather than distinct parts."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple handle mechanism that rotates on a single axis. There are no telescoping, scissor, or multi-link mechanisms visible that would indicate complex hinge relationships."
+      }
+    }
+  },
+  "faucet1": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete faucet with all expected parts visible: handle, valve body, spout, and mounting base."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be designed for mounting and is not resting on a printed support plane."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the faucet are correctly segmented and colored separately: handle, valve, spout, and base are distinct components without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple rotational hinge mechanism for the handle, which is standard and not overly complex or articulated."
+      }
+    }
+  },
+  "faucet10": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with distinct parts: handle, spout, body, and base. All major components are present and structurally coherent."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object. The object appears to be floating, which is typical for a clean 3D render without printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the faucet (handle, spout, body, base) are clearly segmented by color and appear to be distinct, independent components without any merging that would interfere with articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple handle that rotates on a single axis, which is a standard hinge mechanism. There are no telescoping, scissor, or multi-link mechanisms visible that would classify it as complex."
+      }
+    }
+  },
+  "faucet11": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with distinct parts: handle, body, and spout, all consistently shaped across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating, which is typical for a clean 3D render."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the faucet \u2014 handle, body, spout, and mounting flange \u2014 are clearly segmented and colored differently, indicating correct segmentation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple lever handle that rotates around a single axis, which is a standard hinge mechanism and not overly complex."
+      }
+    }
+  },
+  "faucet12": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete faucet with all expected parts visible across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No base plate or support structure is visible; the object appears to be floating."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The spout and handle are colored differently but appear to be merged into a single rigid body, preventing correct articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object has a simple handle mechanism without complex hinge or linkage systems."
+      }
+    }
+  },
+  "faucet13": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with all expected parts: handle, body, spout, and base fitting. No severe missing geometry or chaotic structure is visible."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object. The object appears to be designed to hang or mount without requiring a support base."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The handle and the green cap appear to be a single colored region, suggesting they are not articulated independently. Additionally, the multi-colored ring at the base (blue, purple, light blue) appears to be a single segmented part rather than separate components that should move independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object has a simple pivot hinge mechanism for the handle, which is standard for faucets. There are no telescoping, scissor, or multi-link mechanisms visible that would classify as complex hinges."
+      }
+    }
+  },
+  "faucet14": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with all expected parts: body, spout, handle, and mounting base."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; it appears designed to be mounted directly."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 body, spout, handle, and base \u2014 are clearly segmented and colored distinctly, indicating proper separation for articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple lever handle that pivots on a single axis, which is a standard hinge mechanism without complex linkages or multi-part transmissions."
+      }
+    }
+  },
+  "faucet15": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with distinct parts: handle, body, spout, and base. All major components are present and structurally coherent."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object. The object appears to be designed to be mounted on a wall or surface without requiring printed supports."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The spout (pink) and the main body (green) are visibly merged at the junction, preventing proper articulation. The handle (light blue) is also connected to the body in a way that suggests it should pivot, but the segmentation is not clean enough to allow for correct hinge behavior."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object has a simple hinge mechanism where the handle pivots on the body. There are no telescoping, scissor, or multi-link mechanisms present that would classify it as complex hinge."
+      }
+    }
+  },
+  "faucet2": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with consistent geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating against a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the faucet \u2014 handle, body, spout, and connection ports \u2014 are correctly segmented and appear as distinct colored regions without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple rotational hinge mechanism at the handle, which is standard and not overly complex."
+      }
+    }
+  },
+  "faucet3": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with consistent geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base or support structure is visible; the object appears to be designed for mounting."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts appear correctly segmented: handle, valve body, spout, and base are distinct and do not merge."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple rotational hinge mechanism for the handle, which is standard and not overly complex."
+      }
+    }
+  },
+  "faucet4": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with all expected components: handle, spout, body, and nozzle. No severe missing parts or chaotic geometry are visible."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object. The object appears to be designed to stand on its own without additional supports."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The faucet handle and spout are colored differently, but the connection area between them appears to be merged into a single colored region, which could cause articulation issues if the parts were meant to move independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a simple faucet with a single handle and spout. There are no visible complex hinge mechanisms, telescoping parts, or multi-link transmissions that would indicate complex hinge relationships."
+      }
+    }
+  },
+  "faucet5": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with distinct parts: handle, body, spout, and threaded outlet. All major components are present and structurally coherent."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base or support structure at the bottom of the object. The object appears to be floating, which is typical for a rendered 3D model without support artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each major component of the faucet (handle, body, spout, outlet) is distinctly colored and appears to be a separate, correctly segmented part. There are no visible merges between parts that should be articulated independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple, single-lever handle mechanism that rotates around a single axis. There are no telescoping, scissor, or multi-link mechanisms visible that would indicate complex hinge relationships."
+      }
+    }
+  },
+  "faucet6": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete faucet with all expected parts visible across views: handle, spout, base, and colored segments."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a plain background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each colored segment appears to represent a distinct, separable part of the faucet (handle, spout, base, etc.) without merging into one another."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object has a simple pivot mechanism at the handle joint, with no complex hinge systems like scissor mechanisms or multi-link transmissions visible."
+      }
+    }
+  },
+  "faucet7": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with consistent geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating against a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the faucet (handle, body, spout, base) are clearly segmented and colored distinctly, indicating proper separation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple rotational handle mechanism without any complex hinge systems or multi-link mechanisms."
+      }
+    }
+  },
+  "faucet8": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with distinct parts: handle, body, spout, and mounting base, all consistently shaped across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; it appears designed to be mounted directly."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The handle and its base are colored differently but appear to be a single rigid piece, which is correct for a faucet handle. However, the pink section appears to be a separate part that is incorrectly merged with the handle base, suggesting under-segmentation where articulation should be possible."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple pivot hinge mechanism for the handle, which is standard and not overly complex. No scissor mechanisms or multi-link transmissions are visible."
+      }
+    }
+  },
+  "faucet9": {
+    "category": "faucet",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a faucet with distinct parts: handle, body, spout, and base. All components are present and structurally coherent."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object. The object appears to be designed to be mounted, not printed with supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the faucet \u2014 handle, body, spout, and base \u2014 are clearly segmented and colored differently, indicating correct segmentation for articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The faucet has a simple hinge mechanism where the handle rotates around a central axis. No complex mechanisms like scissor links or telescoping parts are visible."
+      }
+    }
+  },
+  "fridge0": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete fridge model with visible door, interior, and shelves."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structure is visible; the object appears to be floating."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts are correctly segmented: door, interior, shelves, and drawer are distinct colored regions."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door hinge mechanism is simple and standard, with no complex linkages or multi-part hinges visible."
+      }
+    }
+  },
+  "fridge1": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and internal shelves, and all major components are present."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat, light blue base plate is visible at the bottom of the refrigerator in multiple views, which is a common 3D printing support structure and not part of the actual object."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The refrigerator door and its frame are colored as a single region in some views, which would prevent proper articulation if the door were to open independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is not visible or complex; the door appears to attach with a simple pivot, and no multi-link or scissor mechanisms are present."
+      }
+    }
+  },
+  "fridge10": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and internal shelves, and all parts are present and logically assembled."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat pink base is visible at the bottom of the fridge in multiple views, which appears to be a 3D printing support structure rather than part of the actual fridge design."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should be separate (door, drawers, shelves) are correctly segmented and colored differently, allowing for proper articulation without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The fridge uses simple hinge mechanisms for the door and drawer slides, which are clearly visible and do not involve complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "fridge11": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a fridge with multiple drawers and internal components, all consistently rendered across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object rests on small feet that appear to be part of the design."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each drawer and internal component is distinctly colored and appears to be a separate part, allowing for correct articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The drawers open and close with simple sliding mechanisms, without any complex hinge systems or multi-link transmissions visible."
+      }
+    }
+  },
+  "fridge12": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and internal shelves, and all major components are present."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; it appears to be standing on small feet or is designed to stand freely."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The refrigerator door and its frame are not properly segmented; they appear as a single colored region, which would cause incorrect articulation when the door opens."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is not visible or overly complex; the door appears to pivot on a simple hinge, which is standard for a refrigerator and does not require complex linkage or multi-part articulation."
+      }
+    }
+  },
+  "fridge13": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and interior shelves, and all major components are present."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should be separate (doors, drawers, shelves) are correctly segmented with distinct colors and do not appear merged."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges are not explicitly visible or complex; the doors and drawers appear to open and close with simple pivot or sliding mechanisms, not scissor or multi-link systems."
+      }
+    }
+  },
+  "fridge14": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors and drawers, and all major components are present across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structure is visible; the object appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each door and drawer is distinctly colored and appears to be a separate, correctly segmented part that moves independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges are simple and appear to be standard pivot joints, allowing doors and drawers to open and close without complex mechanical linkages."
+      }
+    }
+  },
+  "fridge15": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, shelves, and drawers, and all major components are present across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structures are visible in any of the views; the object appears to be floating."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should be separate (doors, shelves, drawers) are correctly segmented and colored distinctly, allowing for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges appear to be simple, standard door hinges without complex mechanisms like scissor links or telescoping supports."
+      }
+    }
+  },
+  "fridge2": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a fridge with multiple drawers and doors, and all parts are present and logically assembled."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each drawer and door is distinctly colored and appears to be a separate, correctly segmented part that can articulate independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges are simple and appear to be standard sliding or pivoting mechanisms without complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "fridge3": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and internal compartments, and all major parts are present."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; it appears to be standing on its own."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The refrigerator doors and drawers are colored differently, but the hinges and connecting mechanisms are not clearly segmented, suggesting some parts may be merged or improperly separated."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges appear to be simple pivot points without complex mechanisms like scissor links or telescoping supports, making them straightforward to annotate."
+      }
+    }
+  },
+  "fridge4": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors and drawers, and all major components are present across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structure is visible; the object appears to be floating against a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each door and drawer is distinctly colored and appears to be a separate, correctly segmented part that can articulate independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges are not explicitly visible or complex; the doors and drawers open and close with simple, intuitive mechanisms without multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "fridge5": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and internal compartments, and all major components are present across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating against a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should be separate (doors, drawers, shelves) are distinctly colored and appear to articulate independently without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges are not visible or complex; the doors and drawers open and close with simple, standard mechanisms implied by the geometry."
+      }
+    }
+  },
+  "fridge6": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and internal shelves, and all parts are present and correctly assembled."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat blue base is visible beneath the refrigerator in all views, which is typical of a 3D printing support structure and not part of the actual object."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All moving parts (door, drawers) are clearly segmented and colored differently, indicating correct separation for articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges are simple and functional, allowing the door and drawers to open and close without complex mechanisms or multi-link systems."
+      }
+    }
+  },
+  "fridge7": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and shelves, and all parts are present and correctly assembled."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All articulating parts (door, drawers) are correctly segmented and colored separately, allowing for proper movement without merging geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges are simple and implied by the door's movement; no complex mechanisms like scissor lifts or multi-link systems are present."
+      }
+    }
+  },
+  "fridge8": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, shelves, and drawers, and all major components are present."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat pink base is visible beneath the refrigerator in all views, which is typical of 3D printing support structures."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The refrigerator doors and interior shelves are colored differently, but the hinges and door frames appear to be merged into the same colored regions, which would cause incorrect articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot point at the top of the doors, without any complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "fridge9": {
+    "category": "fridge",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a refrigerator with doors, drawers, and internal compartments, and all parts are present and correctly assembled across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral gray background, typical of clean 3D renders."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All articulating parts (doors, drawers) are correctly segmented into distinct colored regions, allowing for proper movement without geometry overlap or merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinges are simple and implied by the door and drawer movements; no complex mechanisms like scissor lifts or multi-link systems are visible or required for function."
+      }
+    }
+  },
+  "micro0": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete cube with a door that opens and closes, matching the expected shape of a microwave or similar appliance."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The door and its frame are merged into a single colored region, which would cause incorrect articulation when the door moves."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is not visible or complex; it appears to be a simple pivot hinge, which is straightforward to annotate."
+      }
+    }
+  },
+  "micro1": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete microwave-like appliance with a door, frame, and interior, consistent across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structures are visible; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door (pink) and frame (purple) are clearly separate colored parts and articulate correctly without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point, allowing the door to swing open and closed without complex linkages."
+      }
+    }
+  },
+  "micro10": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a microwave oven with a door, interior, and turntable, and all parts are present and logically assembled."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat red base plate is visible beneath the entire object in all views, which is characteristic of a 3D printing support structure."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The door and the main body are colored differently, but the interior walls and turntable are not clearly segmented from the main body, suggesting under-segmentation that could cause articulation issues."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door opens with a simple hinge mechanism, and no complex multi-link or scissor mechanisms are visible."
+      }
+    }
+  },
+  "micro11": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a box-like structure with consistent geometry across views, showing no severe missing parts or chaotic shapes."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible in any of the views; the object is suspended and appears to be printed without support structures."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The door and frame are merged into a single colored region in some views, which would cause incorrect articulation when the door is opened or closed."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot joint, not involving telescoping, scissor mechanisms, or multi-link transmissions."
+      }
+    }
+  },
+  "micro12": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete microwave oven with a door, interior, and exterior casing, shown from multiple angles."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A thin, flat base plate is visible under the object in multiple views, which is typical of 3D printing support structures."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The door and its frame appear to be merged into a single colored region in some views, which would prevent proper articulation if assembled."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot point, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "micro13": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a miniature safe or cabinet with a hinged door, and all parts are present and correctly assembled across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral gray background, typical of clean 3D renders."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door and frame are correctly segmented into separate colored regions (green door, pink body), and the hinge mechanism allows proper articulation without merging geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge is a simple, single-axis pivot mechanism connecting the door to the body, which is standard and not overly complex for a miniature safe model."
+      }
+    }
+  },
+  "micro14": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a stylized microwave with clear parts: body, door, handle, and interior. All expected components are present across views."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat pink base plate is visible beneath the object in all views, which is typical of 3D printing support structures and not part of the actual microwave design."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The door and its frame are colored as a single region in some views, suggesting they are not properly segmented. This would cause the door to move incorrectly if articulated."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door opens with a simple hinge mechanism, visible in the views. There are no telescoping, scissor, or multi-link mechanisms present."
+      }
+    }
+  },
+  "micro15": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete, articulated box-like structure with consistent geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a neutral background."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The hinge area where the green and blue panels meet shows significant color bleed and merging, indicating that parts intended to articulate independently are not properly segmented."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot joint between panels, without any telescoping, scissor, or multi-link mechanisms."
+      }
+    }
+  },
+  "micro2": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete cabinet with a door that opens and closes, matching expected geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structures are visible; the object is suspended and appears to be printed without supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door and cabinet body are clearly separated into distinct colored regions, allowing for proper articulation without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of basic pin-like connectors, not complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "micro3": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a microwave oven with a door that opens and closes, and all parts are present and correctly shaped."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating, which is typical for a clean 3D render."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door and the main body are clearly separated into different colored regions, allowing for correct articulation when the door opens and closes."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard door hinge, with no complex multi-link or scissor mechanisms visible."
+      }
+    }
+  },
+  "micro4": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete miniature cabinet or box with a door, and all parts are visible across the views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object in any of the views."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The green door and the blue frame appear to be merged or improperly segmented in some views, as the green door seems to be attached to the blue frame in a way that suggests they should be separate parts for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot joint between the door and the frame, without any telescoping, scissor, or multi-link mechanisms visible."
+      }
+    }
+  },
+  "micro5": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete microwave-like appliance with a door, interior, and control panel, matching expected geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structures are visible; the object appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should be separate (door, interior walls, control panel) are correctly segmented with distinct colors and do not merge."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door hinge mechanism is simple and appears to be a single pivot point, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "micro6": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete box-like structure with a hinged door that opens and closes correctly across all views."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat pink base is visible beneath the object in all views, which is characteristic of a 3D printing support structure."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The door and its frame are colored as a single region, preventing proper articulation when the door opens and closes."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point, not involving complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "micro7": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete, articulated box-like structure with consistent geometry across all views."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat, pink base plane is visible beneath the entire object in all views, which is characteristic of a 3D printing support structure."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The pink and yellow panels appear to be connected as a single colored region in some views, suggesting they should be separate parts for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object uses simple hinge mechanisms between panels, with no telescoping, scissor, or multi-link transmission linkages visible."
+      }
+    }
+  },
+  "micro8": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete cabinet or door assembly with consistent geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structures are visible in any of the views."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The door and frame are colored as a single region in some views, suggesting they are not properly segmented and would move as one unit."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot joint, not a complex multi-link or telescoping system."
+      }
+    }
+  },
+  "micro9": {
+    "category": "micro",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete microwave-like appliance with a door, body, and interior, consistent across all views."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat pink base is visible beneath the object in all views, which is characteristic of a 3D printing support structure."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The door and its frame are colored as a single region, which would cause the door to move the entire frame when articulated, indicating under-segmentation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door opens on a simple hinge mechanism, visible in the views, without any complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "scissors0": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blades, pivot, and handles, and all parts are present and correctly assembled."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a plain background, indicating it was not printed with supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each component \u2014 blades, pivot, and handles \u2014 is clearly segmented and colored differently, with no merged parts that would interfere with articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge mechanism, which is standard for scissors and does not involve complex linkages or multi-part articulation."
+      }
+    }
+  },
+  "scissors1": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with two blades and two handles, and all parts are present and correctly shaped."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating, which is typical for a finished 3D model."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The blades and handles are colored separately, but the pivot point and the connecting areas between the blades and handles are not clearly segmented. The pivot mechanism appears to be a single colored region, which may cause articulation issues if the parts are meant to move independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge at the center, which is standard for scissors and does not involve complex mechanisms like scissor linkages or telescoping supports."
+      }
+    }
+  },
+  "scissors10": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with complete blades, handles, and pivot mechanism across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a plain background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the scissors \u2014 blades, pivot, and handles \u2014 are correctly segmented and colored separately, with no merged components."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge at the center, typical for scissors, with no complex mechanisms like scissor linkages or telescoping parts."
+      }
+    }
+  },
+  "scissors11": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with two blades, a pivot point, and handles, and all parts are present and correctly assembled."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating, which is typical for a finished 3D model."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The blade and handle components are merged into a single colored region in some views, which would prevent proper articulation if the model were to be animated or physically assembled."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge mechanism, which is standard for scissors and does not involve complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "scissors12": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blades, pivot point, and handle, matching expected geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is suspended in space without any printing artifacts."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The blades and the pivot mechanism are colored differently, but the blades appear to be a single continuous colored region, suggesting they should be separate parts for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge is a simple pivot point between two blades, without any complex mechanisms like scissor linkages or telescoping parts."
+      }
+    }
+  },
+  "scissors13": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with complete handles, blades, and pivot point across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is suspended in space without any printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the scissors \u2014 handles, blades, and pivot \u2014 are correctly segmented and colored distinctly, with no merged components that would interfere with articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge at the center, typical for scissors, with no complex mechanisms like scissor linkages or telescoping parts."
+      }
+    }
+  },
+  "scissors14": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blades, pivot point, and handles across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a plain background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 blades, pivot, and handles \u2014 are clearly segmented and colored differently, indicating proper separation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge mechanism, which is standard and not overly complex."
+      }
+    }
+  },
+  "scissors15": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blades, pivot, and handles, and all parts are present and correctly assembled."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a plain background, indicating it was not printed with supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each component of the scissors \u2014 blades, pivot, and handles \u2014 is clearly segmented and colored differently, indicating proper segmentation without merging of articulating parts."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge at the center, which is standard for scissors and does not involve complex mechanisms like scissor linkages or telescoping parts."
+      }
+    }
+  },
+  "scissors2": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with two blades, a pivot point, and two handles, consistent across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is suspended in space, typical of a clean 3D render."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The blades and handles are colored separately, but the pivot point and connecting areas are not clearly segmented, suggesting potential under-segmentation that could affect articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge mechanism, which is standard and not overly complex or multi-link."
+      }
+    }
+  },
+  "scissors3": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blades, handles, and pivot point across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base or support structure at the bottom of the object in any view."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each component of the scissors \u2014 blades, pivot, and handles \u2014 appears to be correctly segmented and colored separately, with no merged parts that would interfere with articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for scissors, consisting of a single pivot point connecting the two blades to the handles, with no complex linkages or multi-part mechanisms visible."
+      }
+    }
+  },
+  "scissors4": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with complete blades, pivot, and handles in all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a plain background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each component (blades, pivot, handles) is clearly segmented and colored differently, indicating proper separation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge mechanism, which is standard and not overly complex."
+      }
+    }
+  },
+  "scissors5": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blade and handle parts."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat, solid pink rectangular base is visible beneath the scissors in all views, which is typical of a 3D printing support structure."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The blade and handle are clearly separated into different colored regions, and the hinge mechanism is properly articulated without merging parts."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge is a simple pivot point between the two blades, with no complex linkages or multi-part mechanisms visible."
+      }
+    }
+  },
+  "scissors6": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blades, pivot point, and handles, and all parts are present."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a plain background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each component (blades, pivot, handles) is clearly segmented and colored differently, indicating proper segmentation without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for scissors, consisting of a single pivot point connecting the blades and handles, with no complex linkages or mechanisms visible."
+      }
+    }
+  },
+  "scissors7": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blades and handles, and all major components are present."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating against a plain background."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The blades and handles are colored in a way that suggests they are meant to be separate parts, but the segmentation appears to merge adjacent regions, especially around the pivot point and finger grips, which could cause incorrect articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge mechanism typical of standard scissors, with no telescoping, scissor mechanisms, or multi-link transmissions visible."
+      }
+    }
+  },
+  "scissors8": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object clearly resembles a pair of scissors with identifiable blades, handles, and pivot point across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base or support structure at the bottom of the object; it appears to be floating, which is typical for a finished 3D model."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The blades and handles are colored differently, but the pivot point and the area where the blades connect to the handles appear to be merged into a single colored region, which could cause articulation issues if the parts are meant to move independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object has a simple pivot hinge at the center, typical for scissors, with no additional complex mechanisms like scissor linkages or telescoping parts visible."
+      }
+    }
+  },
+  "scissors9": {
+    "category": "scissors",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a pair of scissors with distinct blade and handle parts, and all expected components are present."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat, light purple rectangular base is visible beneath the scissors in all views, which is characteristic of a 3D printing support structure."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The blade and handle parts are clearly segmented and colored differently, indicating proper segmentation without merging of articulating parts."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The scissors have a simple pivot hinge at the center, which is standard for scissors and does not involve complex mechanisms like telescoping or scissor linkages."
+      }
+    }
+  },
+  "stationery0": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a lunchbox or stationery box with a lid and interior compartments, and all parts are present and correctly assembled across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; the green base appears to be part of the intended design."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, and the hinge mechanism is properly articulated without merging parts that should be separate."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of two small tabs connecting the lid to the base, which is a standard and straightforward hinge design without complex linkages or mechanisms."
+      }
+    }
+  },
+  "stationery1": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete box with a lid, shown from multiple angles and in various open positions, matching the expected shape of a simple hinged box."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating, which is typical for a clean 3D render without printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and the box body are clearly separated into distinct colored regions, and their articulation is consistent with a simple hinge mechanism without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard single-axis hinge along the edge of the lid, with no complex linkages, scissor mechanisms, or telescoping parts visible."
+      }
+    }
+  },
+  "stationery10": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is consistently rendered as a complete container with a lid across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly rendered without printing supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid, inner container, and outer shell are clearly segmented into distinct colored regions, allowing for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard snap-fit or pivot hinge, not a complex multi-link or telescoping mechanism."
+      }
+    }
+  },
+  "stationery11": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete rectangular container with a lid, shown in multiple views including open and closed states, matching expected geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly rendered without printing supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and container are clearly separate parts with distinct colors and articulation points, allowing for proper hinge movement without merging geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for a snap-on lid, with no telescoping, scissor, or multi-link mechanisms visible."
+      }
+    }
+  },
+  "stationery12": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a hinged box with a lid, and all parts are present and structurally coherent across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom; the object appears to be floating on a neutral gray background, typical of clean 3D renders."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The lid and the box body are colored differently, but the hinge mechanism is not clearly segmented into distinct parts. The hinge appears as a merged region where the lid connects to the box, which could cause articulation issues if the parts are meant to move independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard single-axis hinge connecting the lid to the box body. There are no telescoping, scissor, or multi-link mechanisms visible."
+      }
+    }
+  },
+  "stationery13": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete box with a lid, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No visible base plate or support structures are present; the object appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and box are clearly separated into distinct colored regions, allowing for proper articulation without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard lid-to-box connection, without complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "stationery14": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete, recognizable rectangular container with a hinged lid, shown from multiple angles."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, allowing for proper articulation without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard single-axis hinge, not involving complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "stationery15": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete rectangular box with a hinged lid, shown in multiple views including open and closed states, matching expected geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No visible base plate or support structures typical of 3D printing artifacts are present; the object appears cleanly rendered on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard snap-fit or pivot hinge, with no complex linkages, scissor mechanisms, or telescoping parts visible."
+      }
+    }
+  },
+  "stationery2": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a lunchbox or similar container with a lid, and all parts are present and correctly assembled across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom; the object appears to be cleanly printed without support artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should be separate (lid, box body, latch, inner rim) are correctly segmented and colored distinctly, allowing for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point on the lid, with no complex linkages or multi-part mechanisms visible."
+      }
+    }
+  },
+  "stationery3": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a hinged box with a lid, and all parts are present and structurally coherent across views."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat green base plate is visible beneath the box in multiple views, which is characteristic of a 3D printing support structure and not part of the intended object."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The lid and the box body are colored with different regions (pink and blue), but the segmentation appears to be inconsistent and fragmented, suggesting parts that should be separate are merged or incorrectly segmented."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple, standard hinge connecting the lid to the box body, without any complex multi-link or scissor mechanisms visible."
+      }
+    }
+  },
+  "stationery4": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a multi-colored box with a hinged lid, and all parts are present and correctly assembled across views."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat, pink-colored base plate is visible beneath the box in all views, which is typical of a 3D printing support structure and not part of the actual object."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and the box body are clearly separate colored parts that articulate correctly when opening and closing, with no evidence of merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple, single-axis pivot between the lid and the box body, without any complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "stationery5": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a rectangular stationery box with a hinged lid, shown in multiple views including open and closed states."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; it appears to be a standalone, self-contained box."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and the box body are clearly separated into distinct colored regions, and the hinge mechanism is visible and correctly articulated without merging parts."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard single-axis hinge connecting the lid to the box body, without any complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "stationery6": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete rectangular container with a lid, shown in multiple views including open and closed states, matching expected geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No visible base plate or support structures are present; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and container are clearly separated into distinct colored regions, and their articulation is consistent across views without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears as a single blue rim around the lid's edge, allowing smooth opening and closing without complex linkages."
+      }
+    }
+  },
+  "stationery7": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete box with a lid, shown in multiple views including open and closed states, matching expected geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly rendered without printing supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, allowing for proper articulation without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard snap-fit or pivot joint, not involving complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "stationery8": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a hinged box with a lid, and all parts are present and correctly assembled across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom; the object appears to be floating or resting on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and the base are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of two blue arms connecting the lid to the base, which is a straightforward hinge system without complex linkages or scissor mechanisms."
+      }
+    }
+  },
+  "stationery9": {
+    "category": "stationery",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete rectangular box with a hinged lid, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating without any printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and box are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard lid-to-box connection, without complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "toolbox0": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly rendered without printing supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts (lid, base, handles) are correctly segmented and colored separately, allowing for proper articulation without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for a toolbox lid, with no telescoping, scissor, or multi-link mechanisms visible."
+      }
+    }
+  },
+  "toolbox1": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object consistently appears as a toolbox with a lid and base, and all views show coherent geometry without missing or chaotic parts."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom; the object appears to be a standalone toolbox with no printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated and colored differently, and the hinge mechanism allows the lid to open independently without merging geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard lid-to-base hinge, with no telescoping, scissor, or multi-link mechanisms visible."
+      }
+    }
+  },
+  "toolbox10": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid, body, and handle, matching expected geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly printed or modeled."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 lid, body, handle, and latch \u2014 are correctly segmented and colored separately, with no merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard snap-fit or latch system, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "toolbox11": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard latching system, not involving complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "toolbox12": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown from multiple angles without missing parts."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for a toolbox lid, with no complex linkages or multi-part mechanisms visible."
+      }
+    }
+  },
+  "toolbox13": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid, body, and hinges, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and body are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for a toolbox lid, with no telescoping, scissor, or multi-link mechanisms visible."
+      }
+    }
+  },
+  "toolbox14": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid, body, and internal compartments, shown from multiple angles."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly printed with no support remnants."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 lid, body, hinges, and internal compartments \u2014 are correctly segmented and colored separately, allowing for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for a toolbox lid, with no scissor mechanisms or multi-link transmissions visible."
+      }
+    }
+  },
+  "toolbox15": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly printed or modeled."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, allowing for proper articulation without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard snap-fit or latch system, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "toolbox2": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly printed or modeled."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 lid, base, and latches \u2014 are correctly segmented and colored separately, allowing for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for a toolbox lid, with no complex linkages or multi-part mechanisms visible."
+      }
+    }
+  },
+  "toolbox3": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views including open and closed states."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; it appears to be a standalone 3D model."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into different colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard pivot hinge, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "toolbox4": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a toolbox with a lid and handle, and all major components are present across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should be separate (lid, body, handles) are correctly segmented and colored distinctly, allowing for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot hinge connecting the lid to the body, without any complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "toolbox5": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom; the object appears to be fully self-contained."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The lid and base are colored differently, but the hinge mechanism and latch areas are segmented into multiple colors, suggesting the parts are not properly separated in the segmentation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot or latch system, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "toolbox6": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard latching system, not involving complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "toolbox7": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly rendered without printing supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, and the handle is also a separate component, allowing for correct articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot between the lid and base, without complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "toolbox8": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a toolbox with a lid and base, and all parts are present and correctly shaped."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; it appears to be a standalone, self-contained model."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a standard latching system with no complex linkages or multi-part mechanisms visible."
+      }
+    }
+  },
+  "toolbox9": {
+    "category": "toolbox",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete toolbox with a lid and base, shown in multiple views with consistent geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom; the object appears to be fully self-contained."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, and the hinge mechanism is properly segmented without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and standard for a toolbox lid, with no telescoping, scissor, or multi-link mechanisms visible."
+      }
+    }
+  },
+  "trash0": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash bin with a lid, handle, and wheels, matching expected design across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structure is visible; the object appears to be cleanly printed without support artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 bin body, lid, handle, wheels \u2014 are clearly segmented and colored differently, indicating proper separation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of a single blue bar connecting the lid to the bin rim, without complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "trash1": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash can with a lid, rim, and body, matching expected geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support artifacts are visible; the object appears to be cleanly rendered without printing supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 the pink body, green rim, and blue lid \u2014 are correctly segmented and appear as separate components that articulate independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens with a simple hinge mechanism that is clearly visible and does not involve complex linkages or multi-part articulation."
+      }
+    }
+  },
+  "trash10": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash can with a lid and rim, shown from multiple angles without missing parts."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid, rim, and body are clearly segmented into distinct colored regions, and their articulation is physically plausible without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens with a simple hinge mechanism that is visually clear and does not involve complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "trash11": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a trash can with a lid, and all parts are present and structurally coherent across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and body are clearly separate parts with distinct color regions and proper articulation, allowing the lid to open and close without merging geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens with a simple hinge mechanism that is not overly complex; it appears to be a single pivot point, typical for a basic trash can lid."
+      }
+    }
+  },
+  "trash12": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete cylindrical trash can with a lid and hinge mechanism, matching expected design across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structure is visible; the object appears to be cleanly rendered without printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 body, lid, hinge \u2014 are clearly segmented and colored differently, indicating proper separation for articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point connecting the lid to the rim, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "trash13": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash bin with a lid, and all parts are visible and structurally coherent across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts of the trash bin \u2014 the green body, blue rim, and pink lid \u2014 are clearly segmented and colored distinctly, with no merged geometry that would interfere with articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens and closes with a simple hinge mechanism, visible as small connecting points between the lid and the rim. There are no scissor mechanisms, telescoping supports, or multi-link transmissions."
+      }
+    }
+  },
+  "trash14": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a trash bin with a lid and handle, and all parts are present and structurally coherent across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 the main body, lid, handle, and hinge mechanism \u2014 are distinctly colored and appear to be separate components that articulate correctly without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point connecting the lid to the body, without any scissor mechanisms, telescoping parts, or multi-link systems."
+      }
+    }
+  },
+  "trash15": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a trash can with a lid, and all parts are present and correctly assembled across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and the body are clearly separated into distinct colored regions, and their articulation is correctly modeled without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens and closes with a simple hinge mechanism that is clearly visible and does not involve complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "trash2": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash bin with a lid, body, and hinge mechanism, matching expected design across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structure is visible; the object appears to be cleanly rendered without printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 lid, body, and hinge \u2014 are correctly segmented and colored separately, allowing for proper articulation without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of a single pivot point with a latch, suitable for basic opening and closing without complex linkages."
+      }
+    }
+  },
+  "trash3": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash bin with a lid and handle, matching expected geometry across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structure is visible; the object appears to be cleanly rendered without printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts \u2014 bin body, lid, and handle \u2014 are correctly segmented and appear as separate colored components without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens and closes with a simple hinge mechanism that is clearly defined and does not involve complex linkages or multi-part articulation."
+      }
+    }
+  },
+  "trash4": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash bin with a lid, and all parts are present and correctly assembled across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid, rim, and body are clearly segmented into distinct colored regions, and their articulation is physically plausible without merging parts."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of a few visible pins or tabs connecting the lid to the rim, without any complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "trash5": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash bin with a lid, and all parts are present and correctly assembled across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid, blue rim, and green body are clearly segmented and colored differently, indicating they are separate parts that articulate correctly without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens and closes with a simple hinge mechanism that is not overly complex; no scissor mechanisms or multi-link transmissions are visible."
+      }
+    }
+  },
+  "trash6": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete cylindrical trash can with a lid and a colorful rim, matching expected shape across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structure is visible; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid, rim, and body are clearly separate parts with distinct colors and no merged geometry that would interfere with articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens and closes with a simple hinge mechanism that appears to be a single pivot point, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "trash7": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete cylindrical container with a lid, shown from multiple angles without missing or chaotic geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object in any of the views."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and the container body are clearly separated and colored differently, indicating they are distinct parts that can articulate independently."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid appears to attach via a simple snap-fit or friction fit mechanism, without any complex hinge systems or multi-link mechanisms visible."
+      }
+    }
+  },
+  "trash8": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is a complete trash bin with a lid and handle, matching expected shape across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No base plate or support structure is visible; the object appears to be floating on a neutral gray background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid, handle, and bin body are clearly segmented into distinct colored regions, allowing for proper articulation without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid opens with a simple hinge mechanism that appears to be a single pivot point, not a complex multi-link or scissor mechanism."
+      }
+    }
+  },
+  "trash9": {
+    "category": "trash",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a trash bin with a hinged lid and a side handle, and all parts are present and correctly assembled across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object; it appears to be designed to stand freely."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All functional parts \u2014 the main bin body, lid, and handle \u2014 are correctly segmented and colored distinctly, with no merged components that would interfere with articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of a single pivot point connecting the lid to the bin, without any scissor mechanisms or multi-link transmissions."
+      }
+    }
+  },
+  "washing0": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears complete and coherent across all views, showing a cylindrical container with a hinged lid and internal components."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object in any of the views."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should articulate (lid, internal rings) are clearly separated and colored distinctly, indicating proper segmentation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot between the lid and the main body, without complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "washing1": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears complete and coherent across all views, showing a consistent structure with no missing or chaotic geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base or support structure; the object is suspended and appears to be designed for floating or mounting without a base plate."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts are clearly segmented by color and geometry, with no merged components that would interfere with articulation or movement."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object features a simple hinge mechanism between the pink and green parts, with no complex linkages, scissor mechanisms, or multi-link systems visible."
+      }
+    }
+  },
+  "washing10": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete, recognizable circular container with a hinged lid, shown from multiple angles and in open/closed states."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object in any of the views."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and the main body appear to be correctly separated into distinct colored regions, allowing for proper articulation when opened or closed."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot hinge connecting the lid to the body, without any complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "washing11": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete, recognizable assembly with consistent geometry across views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base or support structures are visible in any of the views."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separate parts but appear as a single colored region in some views, suggesting they are not properly segmented for articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears simple and direct, with no telescoping, scissor, or multi-link mechanisms visible."
+      }
+    }
+  },
+  "washing12": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears complete and coherent across all views, showing a consistent structure with no missing or chaotic geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object in any view."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should articulate (like the lid and base) are clearly separated and colored distinctly, allowing for correct hinge movement."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot joint between the lid and base, without any telescoping, scissor, or multi-link mechanisms."
+      }
+    }
+  },
+  "washing13": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete assembly with distinct parts that articulate correctly across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base or support structure; the object is suspended in space without any printing artifacts."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "Each component is clearly segmented and colored differently, indicating proper separation of parts without merging."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears simple and direct, with a single pivot point connecting the two main parts, without complex linkages or multi-axis movement."
+      }
+    }
+  },
+  "washing14": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears complete and coherent across all views, showing a consistent lid, base, and hinge mechanism."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base plate or support structures are visible; the object is suspended and appears to be printed without supports."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should articulate (lid, base, hinge) are clearly separated and colored distinctly, allowing for correct movement."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of a single pivot point with a clear latch, not involving complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "washing15": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears complete and coherent across all views, showing a consistent design of a hinged lid mechanism."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object in any of the views."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should articulate (the lid and the base) are clearly separated and colored differently, indicating proper segmentation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point connecting the lid to the base, without any complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "washing2": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly defined as a circular container with a lid, shown in multiple open and closed states across all views."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object appears to be floating against a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and the container body are clearly separated into distinct colored regions, and their articulation is consistent across views."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point connecting the lid to the body, without any complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "washing3": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete, articulated mechanism with consistent geometry across all views."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A flat, beige rectangular base is visible in all views, which is typical of a 3D printing support structure and not part of the functional object."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should articulate (e.g., the lid and the base) are clearly separated and colored distinctly, allowing for correct movement."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot or ball joint, not involving complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "washing4": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears complete and consistent across all views, showing a lid and base that open and close properly."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure; the object is floating and appears to be cleanly printed."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, allowing for proper articulation without merged geometry."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point between the lid and base, without complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "washing5": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object is clearly identifiable as a washing machine with a door, drum, and frame, and all parts are present and correctly assembled."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible base plate or support structure at the bottom of the object; it appears to be floating on a neutral background."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The door and frame are correctly separated into distinct colored regions, allowing for proper articulation when the door opens and closes."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point connecting the door to the frame, without any complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "washing6": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears complete and consistent across all views, showing a hinged lid mechanism."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base or support structures are visible in any of the views."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The lid and base are clearly separated into distinct colored regions, allowing for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and appears to be a single pivot point connecting the lid and base, without complex linkages or multi-part mechanisms."
+      }
+    }
+  },
+  "washing7": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete, articulated mechanism with consistent geometry across views."
+      },
+      "support_structure": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "A large, flat pink rectangular base is visible in all views, which is characteristic of a 3D printing support structure."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The green circular part and the blue inner part appear to be merged in some views, suggesting they should be separate components for proper articulation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism appears to be a simple pivot or sliding joint, not involving complex multi-link or scissor mechanisms."
+      }
+    }
+  },
+  "washing8": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears to be a complete, recognizable structure resembling a folder or book with a circular component attached, with no missing or chaotic geometry."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "There is no visible flat base plate or support structure at the bottom of the object in any of the views."
+      },
+      "under_seg": {
+        "detected": true,
+        "confidence": "high",
+        "reason": "The circular component (light blue) appears to be attached to the yellow panel, but the geometry suggests it should be a separate part that articulates independently. The way the colors are segmented indicates potential under-segmentation where parts should be distinct."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object does not show any complex hinge mechanisms such as scissor links or multi-link systems. The articulation appears to be a simple pivot or hinge between the circular component and the panels."
+      }
+    }
+  },
+  "washing9": {
+    "category": "washing",
+    "detections": {
+      "incomplete": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The object appears complete and consistent across all views, showing a circular lid with a hinge mechanism."
+      },
+      "support_structure": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "No flat base or support structures are visible in any of the views."
+      },
+      "under_seg": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "All parts that should articulate (lid and base) are clearly separated and colored differently, indicating proper segmentation."
+      },
+      "complex_hinge": {
+        "detected": false,
+        "confidence": "high",
+        "reason": "The hinge mechanism is simple and consists of a single pivot point connecting the lid to the base, without complex linkages or multi-part mechanisms."
+      }
+    }
+  }
+}

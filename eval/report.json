@@ -1,0 +1,19 @@
+{
+  "total": 2,
+  "results": [
+    {
+      "name": "fridge0",
+      "category": "fridge",
+      "num_parts": 6,
+      "object_score": 7,
+      "fragment_score": 7
+    },
+    {
+      "name": "fridge1",
+      "category": "fridge",
+      "num_parts": 15,
+      "object_score": 6,
+      "fragment_score": 8
+    }
+  ]
+}
