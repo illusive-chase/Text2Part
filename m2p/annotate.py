@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import xml.etree.ElementTree as ET
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +15,43 @@ from matplotlib import colormaps
 from scipy.spatial import cKDTree
 
 HIGHLIGHT_COLOR = np.array([255, 255, 100], dtype=np.uint8)
+
+
+def _direction_to_wxyz(direction: np.ndarray) -> np.ndarray:
+    """Convert a direction vector to a wxyz quaternion (rotate +Z to align with direction)."""
+    z = np.array([0, 0, 1.0])
+    d = direction / np.linalg.norm(direction)
+    cross = np.cross(z, d)
+    dot = np.dot(z, d)
+    if np.linalg.norm(cross) < 1e-6:
+        return np.array([1, 0, 0, 0] if dot > 0 else [0, 0, 1, 0], dtype=np.float32)
+    half = np.arctan2(np.linalg.norm(cross), dot) / 2
+    ax = cross / np.linalg.norm(cross)
+    return np.array([np.cos(half), *(ax * np.sin(half))], dtype=np.float32)
+
+
+@dataclass
+class HingeState:
+    base_name: str
+    child_name: str
+    ep1: np.ndarray  # endpoint 1 position (3,)
+    ep2: np.ndarray  # endpoint 2 position (3,)
+    score: float  # PCA quality score
+    original_mesh: trimesh.Trimesh  # child mesh snapshot at angle=0
+    # scene/GUI handles (set after creation)
+    slider: viser.GuiSliderHandle = None  # viser GUI slider
+    axes_handle: viser.FrameHandle = None  # BatchedAxesHandle (2 frames at ep1, ep2)
+    ctrl_ep1: viser.TransformControlsHandle = None  # TransformControlsHandle at ep1
+    ctrl_ep2: viser.TransformControlsHandle = None  # TransformControlsHandle at ep2
+
+    @property
+    def axis(self) -> np.ndarray:
+        d = self.ep2 - self.ep1
+        return d / np.linalg.norm(d)
+
+    @property
+    def pivot(self) -> np.ndarray:
+        return (self.ep1 + self.ep2) / 2.0
 
 
 class AnnotationState:
@@ -41,11 +79,7 @@ class AnnotationState:
         self._color_idx = 0
 
         # ========== hinge annotation ==========
-        self.hinges: list[dict] = []
-        # preview state
-        self._preview_idx: int | None = None
-        self._preview_slider: Any = None
-        self._preview_axis_handle: Any = None
+        self.hinges: list[HingeState] = []
 
         self._load_parts()
 
@@ -225,93 +259,99 @@ class AnnotationState:
         if score < 1.5:
             raise ValueError(f"Cannot detect valid hinge axis (score={score:.2f}).")
 
-        return {'axis': axis_direction, 'pivot': centroid, 'score': score}
+        # Compute extent of boundary along axis for endpoint placement
+        projections = centered @ axis_direction
+        extent = max((projections.max() - projections.min()) / 2, avg_edge_len * 5)
+
+        return {'axis': axis_direction, 'pivot': centroid, 'score': score, 'extent': extent}
 
     def add_hinge(self, base_name: str, child_name: str) -> str | None:
-        """Detect hinge axis and store it."""
+        """Detect hinge axis, create visualization and slider."""
         info = self.detect_hinge_axis(base_name, child_name)
-        hinge = {
-            'base': base_name,
-            'child': child_name,
-            'axis': info['axis'],
-            'pivot': info['pivot'],
-            'limits': (-np.pi, np.pi),
-            'score': info['score'],
-        }
-        self.hinges.append(hinge)
-        return f"Hinge {len(self.hinges)-1}: {base_name} -> {child_name} (score={info['score']:.2f})"
+        idx = len(self.hinges)
 
-    def remove_last_hinge(self) -> str | None:
-        if not self.hinges:
-            return None
-        h = self.hinges.pop()
-        return f"Removed hinge: {h['base']} -> {h['child']}"
+        pivot = info['pivot']
+        axis = info['axis']
+        extent = info['extent']
+        ep1 = pivot - axis * extent
+        ep2 = pivot + axis * extent
 
-    def start_hinge_preview(self, idx: int) -> None:
-        """Enter preview mode for hinge at given index."""
-        hinge = self.hinges[idx]
-        child_name = hinge['child']
-        self._preview_idx = idx
+        original_mesh = self.parts[child_name].copy()
 
-        # Create slider
-        self._preview_slider = self.server.gui.add_slider(
-            label=f"Hinge {idx} angle",
+        hinge = HingeState(
+            base_name=base_name,
+            child_name=child_name,
+            ep1=ep1,
+            ep2=ep2,
+            score=info['score'],
+            original_mesh=original_mesh,
+        )
+
+        # Create GUI slider
+        hinge.slider = self.server.gui.add_slider(
+            label=f'Hinge {idx}',
             min=-np.pi,
             max=np.pi,
             step=0.01,
             initial_value=0.0,
         )
 
-        # Show axis line in scene
-        pivot = hinge['pivot']
-        axis = hinge['axis']
-        positions = np.array([pivot - axis * 0.3, pivot + axis * 0.3])
-        self._preview_axis_handle = self.server.scene.add_spline_catmull_rom(
-            name="_hinge_axis",
-            positions=positions,
-            color=(255, 0, 0),
+        # Create batched axes visualization
+        wxyz = _direction_to_wxyz(hinge.axis)
+        hinge.axes_handle = self.server.scene.add_batched_axes(
+            name=f'_hinge_axis_{idx}',
+            batched_wxyzs=np.tile(wxyz, (2, 1)),
+            batched_positions=np.array([ep1, ep2], dtype=np.float32),
+            axes_length=0.08,
+            axes_radius=0.004,
         )
 
-        # Register callback
-        self._preview_slider.on_update(
-            lambda _: self._apply_hinge_angle(self._preview_slider.value)
+        # Create transform controls (initially hidden)
+        hinge.ctrl_ep1 = self.server.scene.add_transform_controls(
+            name=f'_hinge_ctrl_{idx}_ep1',
+            scale=0.15,
+            disable_rotations=True,
+            position=tuple(ep1),
+            visible=False,
+        )
+        hinge.ctrl_ep2 = self.server.scene.add_transform_controls(
+            name=f'_hinge_ctrl_{idx}_ep2',
+            scale=0.15,
+            disable_rotations=True,
+            position=tuple(ep2),
+            visible=False,
         )
 
-    def stop_hinge_preview(self) -> None:
-        """Exit preview mode, restore original mesh."""
-        if self._preview_idx is None:
-            return
+        # Register slider callback
+        def _on_slider_update(_, _idx=idx):
+            self._apply_hinge_angle(_idx, self.hinges[_idx].slider.value)
 
-        # Remove slider
-        if self._preview_slider is not None:
-            self._preview_slider.remove()
-            self._preview_slider = None
+        hinge.slider.on_update(_on_slider_update)
 
-        # Remove axis line
-        if self._preview_axis_handle is not None:
-            self._preview_axis_handle.remove()
-            self._preview_axis_handle = None
+        # Register endpoint update callbacks
+        def _on_ep1_update(_, _idx=idx):
+            h = self.hinges[_idx]
+            h.ep1 = np.array(h.ctrl_ep1.position)
+            self._update_hinge_visualization(_idx)
+            self._apply_hinge_angle(_idx, h.slider.value)
 
-        # Restore child handle transform to identity
-        child_name = self.hinges[self._preview_idx]['child']
-        if child_name in self.handles:
-            self.handles[child_name].wxyz = np.array([1.0, 0.0, 0.0, 0.0])
-            self.handles[child_name].position = np.array([0.0, 0.0, 0.0])
+        def _on_ep2_update(_, _idx=idx):
+            h = self.hinges[_idx]
+            h.ep2 = np.array(h.ctrl_ep2.position)
+            self._update_hinge_visualization(_idx)
+            self._apply_hinge_angle(_idx, h.slider.value)
 
-        self._preview_idx = None
+        hinge.ctrl_ep1.on_update(_on_ep1_update)
+        hinge.ctrl_ep2.on_update(_on_ep2_update)
 
-    def _apply_hinge_angle(self, angle: float) -> None:
-        """Apply rotation to child mesh for preview via scene node transform."""
-        if self._preview_idx is None:
-            return
+        self.hinges.append(hinge)
+        return f"Hinge {idx}: {base_name} -> {child_name} (score={info['score']:.2f})"
 
-        hinge = self.hinges[self._preview_idx]
-        child_name = hinge['child']
-        if child_name not in self.handles:
-            return
-
-        pivot = hinge['pivot']
-        axis = hinge['axis']
+    def _apply_hinge_angle(self, idx: int, angle: float) -> None:
+        """Apply rotation to child mesh around the hinge axis derived from endpoints."""
+        hinge = self.hinges[idx]
+        pivot = hinge.pivot
+        axis = hinge.axis
 
         # Quaternion for rotation about axis (w, x, y, z)
         wxyz = trimesh.transformations.quaternion_about_axis(angle, axis)
@@ -320,9 +360,32 @@ class AnnotationState:
         R = trimesh.transformations.quaternion_matrix(wxyz)[:3, :3]
         position = pivot - R @ pivot
 
+        # Update scene (remove + re-add)
+        child_name = hinge.child_name
         handle = self.handles[child_name]
         handle.wxyz = wxyz
         handle.position = position
+
+    def _update_hinge_visualization(self, idx: int) -> None:
+        """Update batched axes positions/orientations when endpoints change."""
+        hinge = self.hinges[idx]
+        wxyz = _direction_to_wxyz(hinge.axis)
+        hinge.axes_handle.batched_positions = np.array([hinge.ep1, hinge.ep2], dtype=np.float32)
+        hinge.axes_handle.batched_wxyzs = np.tile(wxyz, (2, 1)).astype(np.float32)
+
+    def remove_last_hinge(self) -> str | None:
+        if not self.hinges:
+            return None
+        h = self.hinges.pop()
+        # Clean up GUI and scene elements
+        h.slider.remove()
+        h.axes_handle.remove()
+        h.ctrl_ep1.remove()
+        h.ctrl_ep2.remove()
+        # Restore original child mesh
+        self.parts[h.child_name] = h.original_mesh
+        self._refresh_mesh(h.child_name)
+        return f"Removed hinge: {h.base_name} -> {h.child_name}"
 
     def generate_urdf(self) -> Path:
         """Generate a URDF file for all annotated hinges."""
@@ -345,10 +408,10 @@ class AnnotationState:
                           izz=inertial_defaults['izz'], ixy='0', ixz='0', iyz='0')
 
         for i, hinge in enumerate(self.hinges):
-            base_name = hinge['base']
-            child_name = hinge['child']
-            pivot = hinge['pivot']
-            axis = hinge['axis']
+            base_name = hinge.base_name
+            child_name = hinge.child_name
+            pivot = hinge.pivot
+            axis = hinge.axis
 
             # Export meshes to OBJ
             base_obj = tmp_dir / f'{base_name}.obj'
@@ -385,8 +448,8 @@ class AnnotationState:
             ET.SubElement(revolute, 'origin', xyz=f'{px} {py} {pz}', rpy='0 0 0')
             ET.SubElement(revolute, 'axis', xyz=f'{ax} {ay} {az}')
             ET.SubElement(revolute, 'limit',
-                          lower=str(hinge['limits'][0]),
-                          upper=str(hinge['limits'][1]),
+                          lower=str(-np.pi),
+                          upper=str(np.pi),
                           effort='2000.0', velocity='2.0')
 
             # Child link
@@ -458,11 +521,11 @@ class AnnotationState:
             ],
             'hinges': [
                 {
-                    'base': h['base'],
-                    'child': h['child'],
-                    'axis': h['axis'].tolist(),
-                    'pivot': h['pivot'].tolist(),
-                    'limits': list(h['limits']),
+                    'base': h.base_name,
+                    'child': h.child_name,
+                    'axis': h.axis.tolist(),
+                    'pivot': h.pivot.tolist(),
+                    'limits': [-np.pi, np.pi],
                 }
                 for h in self.hinges
             ],
@@ -474,6 +537,12 @@ class AnnotationState:
             self.generate_urdf()
 
         return glb_path
+
+    def set_edit_endpoints_visible(self, visible: bool) -> None:
+        """Toggle visibility of all endpoint transform controls."""
+        for h in self.hinges:
+            h.ctrl_ep1.visible = visible
+            h.ctrl_ep2.visible = visible
 
     # GUI text handle, set after GUI creation
     selection_text: Any = None
@@ -548,8 +617,14 @@ if __name__ == '__main__':
             def _update_hinge_text() -> None:
                 lines = [str(len(state.hinges))]
                 for i, h in enumerate(state.hinges):
-                    lines.append(f"  {i}: {h['base']} -> {h['child']}")
+                    lines.append(f'  {i}: {h.base_name} -> {h.child_name} (score={h.score:.2f})')
                 hinge_text.value = '\n'.join(lines)
+
+            edit_cb = server.gui.add_checkbox('Edit Endpoints', initial_value=False)
+
+            @edit_cb.on_update
+            def _(_) -> None:
+                state.set_edit_endpoints_visible(edit_cb.value)
 
             add_hinge_btn = server.gui.add_button('Add Hinge')
 
@@ -570,6 +645,11 @@ if __name__ == '__main__':
                     event.client.add_notification(title='Hinge Added', body=result, loading=False)
                     _update_hinge_text()
                     state.clear_selection()
+                    # If edit endpoints is on, make the new hinge controls visible
+                    if edit_cb.value:
+                        h = state.hinges[-1]
+                        h.ctrl_ep1.visible = True
+                        h.ctrl_ep2.visible = True
                 except ValueError as e:
                     event.client.add_notification(title='Detection Failed', body=str(e), loading=False)
 
@@ -583,24 +663,6 @@ if __name__ == '__main__':
                     _update_hinge_text()
                 else:
                     event.client.add_notification(title='Nothing to remove', body='No hinges.', loading=False)
-
-            preview_btn = server.gui.add_button('Preview Hinge')
-
-            @preview_btn.on_click
-            def _(event: viser.GuiEvent) -> None:
-                if not state.hinges:
-                    event.client.add_notification(
-                        title='Error', body='No hinges to preview.', loading=False)
-                    return
-                if state._preview_idx is not None:
-                    state.stop_hinge_preview()
-                state.start_hinge_preview(len(state.hinges) - 1)
-
-            stop_preview_btn = server.gui.add_button('Stop Preview')
-
-            @stop_preview_btn.on_click
-            def _(_: viser.GuiEvent) -> None:
-                state.stop_hinge_preview()
 
         with server.gui.add_folder('Export'):
             export_btn = server.gui.add_button('Export GLB + JSON')
