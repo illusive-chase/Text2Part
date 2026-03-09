@@ -30,6 +30,44 @@ def _direction_to_wxyz(direction: np.ndarray) -> np.ndarray:
     return np.array([np.cos(half), *(ax * np.sin(half))], dtype=np.float32)
 
 
+ARROW_COLOR = np.array([255, 50, 50], dtype=np.uint8)
+
+
+def _make_arrow_mesh(
+    ep1: np.ndarray,
+    ep2: np.ndarray,
+    shaft_radius: float = 0.005,
+    head_angle: float = 30,
+    head_fraction: float = 0.07,
+) -> trimesh.Trimesh:
+    """Create a trimesh arrow from ep1 to ep2 (tip at ep2)."""
+    d = ep2 - ep1
+    length = np.linalg.norm(d)
+    if length < 1e-8:
+        return trimesh.Trimesh()
+
+    shaft_len = length * (1 - head_fraction)
+    head_len = length * head_fraction
+    head_radius = np.tan(np.deg2rad(head_angle / 2)) * head_len
+
+    # Build along +Z with base at origin
+    shaft = trimesh.creation.cylinder(radius=shaft_radius, height=shaft_len, sections=12)
+    shaft.apply_translation([0, 0, shaft_len / 2])
+
+    head = trimesh.creation.cone(radius=head_radius, height=head_len, sections=12)
+    head.apply_translation([0, 0, shaft_len])
+
+    arrow = trimesh.util.concatenate([shaft, head])
+
+    # Rotate +Z to align with ep1→ep2, then translate to ep1
+    wxyz = _direction_to_wxyz(d / length)
+    R = trimesh.transformations.quaternion_matrix(wxyz)
+    T = trimesh.transformations.translation_matrix(ep1)
+    arrow.apply_transform(T @ R)
+
+    return arrow
+
+
 @dataclass
 class HingeState:
     base_name: str
@@ -40,7 +78,7 @@ class HingeState:
     original_mesh: trimesh.Trimesh  # child mesh snapshot at angle=0
     # scene/GUI handles (set after creation)
     slider: viser.GuiSliderHandle = None  # viser GUI slider
-    axes_handle: viser.FrameHandle = None  # BatchedAxesHandle (2 frames at ep1, ep2)
+    axes_handle: viser.MeshHandle = None  # arrow mesh handle (ep1 → ep2)
     ctrl_ep1: viser.TransformControlsHandle = None  # TransformControlsHandle at ep1
     ctrl_ep2: viser.TransformControlsHandle = None  # TransformControlsHandle at ep2
 
@@ -260,8 +298,9 @@ class AnnotationState:
             raise ValueError(f"Cannot detect valid hinge axis (score={score:.2f}).")
 
         # Compute extent of boundary along axis for endpoint placement
+        # Add 100% extra beyond overlap range so endpoints are easy to grab
         projections = centered @ axis_direction
-        extent = max((projections.max() - projections.min()) / 2, avg_edge_len * 5)
+        extent = max((projections.max() - projections.min()) / 2, avg_edge_len * 5) * 2
 
         return {'axis': axis_direction, 'pivot': centroid, 'score': score, 'extent': extent}
 
@@ -296,14 +335,13 @@ class AnnotationState:
             initial_value=0.0,
         )
 
-        # Create batched axes visualization
-        wxyz = _direction_to_wxyz(hinge.axis)
-        hinge.axes_handle = self.server.scene.add_batched_axes(
+        # Create arrow mesh visualization (ep1 → ep2)
+        arrow = _make_arrow_mesh(ep1, ep2)
+        hinge.axes_handle = self.server.scene.add_mesh_simple(
             name=f'_hinge_axis_{idx}',
-            batched_wxyzs=np.tile(wxyz, (2, 1)),
-            batched_positions=np.array([ep1, ep2], dtype=np.float32),
-            axes_length=0.08,
-            axes_radius=0.004,
+            vertices=arrow.vertices,
+            faces=arrow.faces,
+            color=ARROW_COLOR,
         )
 
         # Create transform controls (initially hidden)
@@ -367,11 +405,16 @@ class AnnotationState:
         handle.position = position
 
     def _update_hinge_visualization(self, idx: int) -> None:
-        """Update batched axes positions/orientations when endpoints change."""
+        """Recreate arrow mesh when endpoints change."""
         hinge = self.hinges[idx]
-        wxyz = _direction_to_wxyz(hinge.axis)
-        hinge.axes_handle.batched_positions = np.array([hinge.ep1, hinge.ep2], dtype=np.float32)
-        hinge.axes_handle.batched_wxyzs = np.tile(wxyz, (2, 1)).astype(np.float32)
+        hinge.axes_handle.remove()
+        arrow = _make_arrow_mesh(hinge.ep1, hinge.ep2)
+        hinge.axes_handle = self.server.scene.add_mesh_simple(
+            name=f'_hinge_axis_{idx}',
+            vertices=arrow.vertices,
+            faces=arrow.faces,
+            color=ARROW_COLOR,
+        )
 
     def remove_last_hinge(self) -> str | None:
         if not self.hinges:
