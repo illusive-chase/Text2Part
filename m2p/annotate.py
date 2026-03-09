@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -33,39 +34,22 @@ def _direction_to_wxyz(direction: np.ndarray) -> np.ndarray:
 ARROW_COLOR = np.array([255, 50, 50], dtype=np.uint8)
 
 
-def _make_arrow_mesh(
-    ep1: np.ndarray,
-    ep2: np.ndarray,
+@lru_cache()
+def _make_canonical_arrow(
+    length: float,
     shaft_radius: float = 0.005,
     head_angle: float = 30,
     head_fraction: float = 0.07,
 ) -> trimesh.Trimesh:
-    """Create a trimesh arrow from ep1 to ep2 (tip at ep2)."""
-    d = ep2 - ep1
-    length = np.linalg.norm(d)
-    if length < 1e-8:
-        return trimesh.Trimesh()
-
+    """Arrow along +Z from origin, *length* units tall."""
     shaft_len = length * (1 - head_fraction)
     head_len = length * head_fraction
     head_radius = np.tan(np.deg2rad(head_angle / 2)) * head_len
-
-    # Build along +Z with base at origin
     shaft = trimesh.creation.cylinder(radius=shaft_radius, height=shaft_len, sections=12)
     shaft.apply_translation([0, 0, shaft_len / 2])
-
     head = trimesh.creation.cone(radius=head_radius, height=head_len, sections=12)
     head.apply_translation([0, 0, shaft_len])
-
-    arrow = trimesh.util.concatenate([shaft, head])
-
-    # Rotate +Z to align with ep1→ep2, then translate to ep1
-    wxyz = _direction_to_wxyz(d / length)
-    R = trimesh.transformations.quaternion_matrix(wxyz)
-    T = trimesh.transformations.translation_matrix(ep1)
-    arrow.apply_transform(T @ R)
-
-    return arrow
+    return trimesh.util.concatenate([shaft, head])
 
 
 @dataclass
@@ -76,11 +60,15 @@ class HingeState:
     ep2: np.ndarray  # endpoint 2 position (3,)
     score: float  # PCA quality score
     original_mesh: trimesh.Trimesh  # child mesh snapshot at angle=0
+    arrow_length: float = 0.0  # canonical arrow length (for scale computation)
+    limit_min: float = -np.pi  # user-set angular limit (min)
+    limit_max: float = np.pi  # user-set angular limit (max)
     # scene/GUI handles (set after creation)
     slider: viser.GuiSliderHandle = None  # viser GUI slider
     axes_handle: viser.MeshHandle = None  # arrow mesh handle (ep1 → ep2)
     ctrl_ep1: viser.TransformControlsHandle = None  # TransformControlsHandle at ep1
     ctrl_ep2: viser.TransformControlsHandle = None  # TransformControlsHandle at ep2
+    btn_group: viser.GuiButtonGroupHandle = None
 
     @property
     def axis(self) -> np.ndarray:
@@ -186,7 +174,7 @@ class AnnotationState:
         self.handles[name] = handle
 
     def _handle_click(self, event: viser.SceneNodePointerEvent) -> None:
-        name = event.target.name
+        name = event.target.name.removeprefix('/')
         if name not in self.parts:
             return
         if name in self.selected:
@@ -335,25 +323,30 @@ class AnnotationState:
             initial_value=0.0,
         )
 
-        # Create arrow mesh visualization (ep1 → ep2)
-        arrow = _make_arrow_mesh(ep1, ep2)
+        # Create arrow mesh visualization (canonical along +Z, oriented via wxyz)
+        length = np.linalg.norm(ep2 - ep1)
+        direction = (ep2 - ep1) / length
+        arrow = _make_canonical_arrow(1.0)
+        hinge.arrow_length = length
         hinge.axes_handle = self.server.scene.add_mesh_simple(
             name=f'_hinge_axis_{idx}',
-            vertices=arrow.vertices,
+            vertices=arrow.vertices * np.array([1.0, 1.0, length]),
             faces=arrow.faces,
             color=ARROW_COLOR,
+            wxyz=_direction_to_wxyz(direction),
+            position=tuple(ep1),
         )
 
         # Create transform controls (initially hidden)
         hinge.ctrl_ep1 = self.server.scene.add_transform_controls(
-            name=f'_hinge_ctrl_{idx}_ep1',
+            name=f'/_hinge_ctrl_{idx}_ep1',
             scale=0.15,
             disable_rotations=True,
             position=tuple(ep1),
             visible=False,
         )
         hinge.ctrl_ep2 = self.server.scene.add_transform_controls(
-            name=f'_hinge_ctrl_{idx}_ep2',
+            name=f'/_hinge_ctrl_{idx}_ep2',
             scale=0.15,
             disable_rotations=True,
             position=tuple(ep2),
@@ -382,6 +375,28 @@ class AnnotationState:
         hinge.ctrl_ep1.on_update(_on_ep1_update)
         hinge.ctrl_ep2.on_update(_on_ep2_update)
 
+        # Per-hinge axis range button group
+        hinge.btn_group = self.server.gui.add_button_group(f'Limits (Hinge {idx})', ['Set Min', 'Set Max', 'Reset'])
+
+        def _on_limit_btn(event, _idx=idx):
+            h = self.hinges[_idx]
+            clicked = event.target.value
+            if clicked == 'Set Min':
+                h.slider.min = h.slider.value
+                h.limit_min = h.slider.value
+            elif clicked == 'Set Max':
+                h.slider.max = h.slider.value
+                h.limit_max = h.slider.value
+            elif clicked == 'Reset':
+                h.slider.min = -np.pi
+                h.slider.max = np.pi
+                h.slider.value = 0.0
+                h.limit_min = -np.pi
+                h.limit_max = np.pi
+                self._apply_hinge_angle(_idx, 0.0)
+
+        hinge.btn_group.on_click(_on_limit_btn)
+
         self.hinges.append(hinge)
         return f"Hinge {idx}: {base_name} -> {child_name} (score={info['score']:.2f})"
 
@@ -405,16 +420,16 @@ class AnnotationState:
         handle.position = position
 
     def _update_hinge_visualization(self, idx: int) -> None:
-        """Recreate arrow mesh when endpoints change."""
+        """Update arrow orientation/position/scale when endpoints change."""
         hinge = self.hinges[idx]
-        hinge.axes_handle.remove()
-        arrow = _make_arrow_mesh(hinge.ep1, hinge.ep2)
-        hinge.axes_handle = self.server.scene.add_mesh_simple(
-            name=f'_hinge_axis_{idx}',
-            vertices=arrow.vertices,
-            faces=arrow.faces,
-            color=ARROW_COLOR,
-        )
+        d = hinge.ep2 - hinge.ep1
+        length = np.linalg.norm(d)
+        if length < 1e-8:
+            return
+        direction = d / length
+        hinge.axes_handle.wxyz = _direction_to_wxyz(direction)
+        hinge.axes_handle.position = hinge.ep1
+        hinge.axes_handle.vertices = _make_canonical_arrow(1.0).vertices * np.array([1.0, 1.0, length])
 
     def remove_last_hinge(self) -> str | None:
         if not self.hinges:
@@ -425,6 +440,7 @@ class AnnotationState:
         h.axes_handle.remove()
         h.ctrl_ep1.remove()
         h.ctrl_ep2.remove()
+        h.btn_group.remove()
         # Restore original child mesh
         self.parts[h.child_name] = h.original_mesh
         self._refresh_mesh(h.child_name)
@@ -491,8 +507,8 @@ class AnnotationState:
             ET.SubElement(revolute, 'origin', xyz=f'{px} {py} {pz}', rpy='0 0 0')
             ET.SubElement(revolute, 'axis', xyz=f'{ax} {ay} {az}')
             ET.SubElement(revolute, 'limit',
-                          lower=str(-np.pi),
-                          upper=str(np.pi),
+                          lower=str(hinge.limit_min),
+                          upper=str(hinge.limit_max),
                           effort='2000.0', velocity='2.0')
 
             # Child link
@@ -568,7 +584,7 @@ class AnnotationState:
                     'child': h.child_name,
                     'axis': h.axis.tolist(),
                     'pivot': h.pivot.tolist(),
-                    'limits': [-np.pi, np.pi],
+                    'limits': [h.limit_min, h.limit_max],
                 }
                 for h in self.hinges
             ],
