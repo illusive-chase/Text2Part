@@ -1,4 +1,5 @@
 set -e
+sudo apt-get install libsm6 libxrender1 libxext-dev ffmpeg libgl1-mesa-glx
 export HF_ENDPOINT=https://huggingface-proxy-sg.byted.org
 export HF_HUB_DISABLE_XET=1
 hf download tencent/Hunyuan3D-2.1 --repo-type model

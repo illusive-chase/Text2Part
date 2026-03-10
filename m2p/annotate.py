@@ -97,10 +97,12 @@ class AnnotationState:
         self.part_colors: dict[str, int] = {}
         # scene handles
         self.handles: dict[str, Any] = {}
-        # currently selected part names
-        self.selected: set[str] = set()
+        # currently selected part names (ordered by click)
+        self.selected: list[str] = []
         # merge history for undo: list of (merged_name, {original_name: mesh, ...}, {original_name: color_idx, ...})
         self.merge_history: list[tuple[str, dict[str, trimesh.Trimesh], dict[str, int]]] = []
+        # delete history for undo: list of (part_name, mesh, color_index)
+        self.delete_history: list[tuple[str, trimesh.Trimesh, int]] = []
         # next color index
         self._color_idx = 0
 
@@ -178,9 +180,9 @@ class AnnotationState:
         if name not in self.parts:
             return
         if name in self.selected:
-            self.selected.discard(name)
+            self.selected.remove(name)
         else:
-            self.selected.add(name)
+            self.selected.append(name)
         self._refresh_mesh(name)
         self._update_selection_text()
 
@@ -441,8 +443,11 @@ class AnnotationState:
         h.ctrl_ep1.remove()
         h.ctrl_ep2.remove()
         h.btn_group.remove()
-        # Restore original child mesh
+        # Restore original child mesh and reset applied transform
         self.parts[h.child_name] = h.original_mesh
+        if h.child_name in self.handles:
+            self.handles[h.child_name].wxyz = np.array([1, 0, 0, 0], dtype=np.float32)
+            self.handles[h.child_name].position = np.array([0, 0, 0], dtype=np.float32)
         self._refresh_mesh(h.child_name)
         return f"Removed hinge: {h.base_name} -> {h.child_name}"
 
@@ -558,6 +563,40 @@ class AnnotationState:
         self._update_selection_text()
         return f"Restored {', '.join(sorted(original_parts.keys()))}"
 
+    def delete_selected(self) -> str | None:
+        if not self.selected:
+            return None
+
+        # Block delete if any selected part is referenced by a hinge
+        for name in self.selected:
+            for h in self.hinges:
+                if name == h.base_name or name == h.child_name:
+                    return f"ERROR: '{name}' is used by hinge {h.base_name} -> {h.child_name}. Remove the hinge first."
+
+        deleted_names = sorted(self.selected)
+        for name in deleted_names:
+            self.delete_history.append((name, self.parts[name], self.part_colors[name]))
+            if name in self.handles:
+                self.handles[name].remove()
+                del self.handles[name]
+            del self.parts[name]
+            del self.part_colors[name]
+
+        self.selected.clear()
+        self._update_selection_text()
+        return f"Deleted: {', '.join(deleted_names)}"
+
+    def undo_delete(self) -> str | None:
+        if not self.delete_history:
+            return None
+
+        name, mesh, color_idx = self.delete_history.pop()
+        self.parts[name] = mesh
+        self.part_colors[name] = color_idx
+        self._add_mesh(name, mesh, selected=False)
+        self._update_selection_text()
+        return f"Restored: {name}"
+
     def export(self) -> Path:
         scene = trimesh.Scene()
         for name, mesh in sorted(self.parts.items()):
@@ -670,6 +709,28 @@ if __name__ == '__main__':
                 else:
                     event.client.add_notification(title='Nothing to undo', body='No merge history.', loading=False)
 
+            delete_btn = server.gui.add_button('Delete Selected')
+
+            @delete_btn.on_click
+            def _(event: viser.GuiEvent) -> None:
+                result = state.delete_selected()
+                if result is None:
+                    event.client.add_notification(title='Nothing to delete', body='Select 1+ parts first.', loading=False)
+                elif result.startswith('ERROR:'):
+                    event.client.add_notification(title='Cannot delete', body=result[7:], loading=False)
+                else:
+                    event.client.add_notification(title='Deleted', body=result, loading=False)
+
+            undo_delete_btn = server.gui.add_button('Undo Last Delete')
+
+            @undo_delete_btn.on_click
+            def _(event: viser.GuiEvent) -> None:
+                result = state.undo_delete()
+                if result:
+                    event.client.add_notification(title='Restored', body=result, loading=False)
+                else:
+                    event.client.add_notification(title='Nothing to undo', body='No delete history.', loading=False)
+
         with server.gui.add_folder('Hinge'):
             hinge_text = server.gui.add_text('Hinges', '0', disabled=True)
 
@@ -693,12 +754,9 @@ if __name__ == '__main__':
                     event.client.add_notification(
                         title='Error', body='Select exactly 2 parts.', loading=False)
                     return
-                names = sorted(state.selected)
-                # Larger mesh = base, smaller = child
-                if len(state.parts[names[0]].vertices) >= len(state.parts[names[1]].vertices):
-                    base_name, child_name = names[0], names[1]
-                else:
-                    base_name, child_name = names[1], names[0]
+                # First selected = child (part), second selected = base
+                child_name = state.selected[0]
+                base_name = state.selected[1]
                 try:
                     result = state.add_hinge(base_name, child_name)
                     event.client.add_notification(title='Hinge Added', body=result, loading=False)
@@ -720,6 +778,8 @@ if __name__ == '__main__':
                 if result:
                     event.client.add_notification(title='Removed', body=result, loading=False)
                     _update_hinge_text()
+                    edit_cb.value = False
+                    state.set_edit_endpoints_visible(False)
                 else:
                     event.client.add_notification(title='Nothing to remove', body='No hinges.', loading=False)
 
