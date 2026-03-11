@@ -32,6 +32,7 @@ def _direction_to_wxyz(direction: np.ndarray) -> np.ndarray:
 
 
 ARROW_COLOR = np.array([255, 50, 50], dtype=np.uint8)
+TRANSLATION_ARROW_COLOR = np.array([50, 150, 255], dtype=np.uint8)
 
 
 @lru_cache()
@@ -69,6 +70,9 @@ class HingeState:
     ctrl_ep1: viser.TransformControlsHandle = None  # TransformControlsHandle at ep1
     ctrl_ep2: viser.TransformControlsHandle = None  # TransformControlsHandle at ep2
     btn_group: viser.GuiButtonGroupHandle = None
+    joint_type: str = 'revolute'  # 'revolute' or 'prismatic'
+    _default_limit_min: float = -np.pi  # initial slider min (for reset)
+    _default_limit_max: float = np.pi  # initial slider max (for reset)
 
     @property
     def axis(self) -> np.ndarray:
@@ -241,8 +245,8 @@ class AnnotationState:
 
         return f"Merged {', '.join(selected_names)} -> {merged_name}"
 
-    def detect_hinge_axis(self, base_name: str, child_name: str) -> dict:
-        """Detect hinge axis between two adjacent parts using PCA on boundary vertices."""
+    def _detect_boundary_pca(self, base_name: str, child_name: str) -> dict:
+        """Shared boundary PCA: KDTree extraction + PCA. Returns eigenvalues/eigenvectors for callers to interpret."""
         base_mesh = self.parts[base_name]
         child_mesh = self.parts[child_name]
 
@@ -268,62 +272,99 @@ class AnnotationState:
 
         boundary_points = np.vstack([child_boundary, base_boundary])
 
-        # Step 2: PCA for axis direction
+        # Step 2: PCA
         centroid = boundary_points.mean(axis=0)
         centered = boundary_points - centroid
         cov = centered.T @ centered / len(centered)
         eigenvalues, eigenvectors = np.linalg.eigh(cov)
+        # eigh returns ascending order: eigenvalues[0] smallest, eigenvalues[-1] largest
 
+        return {
+            'eigenvalues': eigenvalues,
+            'eigenvectors': eigenvectors,
+            'boundary_centroid': centroid,
+            'avg_edge_len': avg_edge_len,
+        }
+
+    def detect_hinge_axis(self, base_name: str, child_name: str) -> dict:
+        """
+        Detect hinge axis between two adjacent parts using PCA on boundary vertices.
+        Uses the largest eigenvector (fit a line along the elongated boundary).
+        """
+        pca = self._detect_boundary_pca(base_name, child_name)
+        eigenvalues = pca['eigenvalues']
+        eigenvectors = pca['eigenvectors']
+        centroid = pca['boundary_centroid']
+        avg_edge_len = pca['avg_edge_len']
+
+        # Largest eigenvector = direction the boundary is elongated along
         axis_direction = eigenvectors[:, -1].copy()
         axis_direction /= np.linalg.norm(axis_direction)
-
-        # Step 3: consistent direction (align with Y+)
         if np.dot(axis_direction, np.array([0.0, 1.0, 0.0])) < 0:
             axis_direction = -axis_direction
 
-        # Step 4: quality score
+        # Quality: ratio of largest to second-largest eigenvalue
         score = eigenvalues[-1] / max(eigenvalues[-2], 1e-12)
-
-        if score < 1.5:
+        if score < 1.2:
             raise ValueError(f"Cannot detect valid hinge axis (score={score:.2f}).")
 
         # Compute extent of boundary along axis for endpoint placement
-        # Add 100% extra beyond overlap range so endpoints are easy to grab
+        child_mesh = self.parts[child_name]
+        base_mesh = self.parts[base_name]
+        boundary_points = np.vstack([
+            child_mesh.vertices[cKDTree(base_mesh.vertices).query(child_mesh.vertices)[0] < avg_edge_len * 1.5],
+            base_mesh.vertices[cKDTree(child_mesh.vertices).query(base_mesh.vertices)[0] < avg_edge_len * 1.5],
+        ])
+        centered = boundary_points - centroid
         projections = centered @ axis_direction
         extent = max((projections.max() - projections.min()) / 2, avg_edge_len * 5) * 2
 
         return {'axis': axis_direction, 'pivot': centroid, 'score': score, 'extent': extent}
 
-    def add_hinge(self, base_name: str, child_name: str) -> str | None:
-        """Detect hinge axis, create visualization and slider."""
-        info = self.detect_hinge_axis(base_name, child_name)
-        idx = len(self.hinges)
+    def detect_translation_axis(self, base_name: str, child_name: str) -> dict:
+        """
+        Detect translation axis between two adjacent parts using PCA on boundary vertices.
+        Uses the smallest eigenvector (normal to the contact plane).
+        """
+        pca = self._detect_boundary_pca(base_name, child_name)
+        eigenvalues = pca['eigenvalues']
+        eigenvectors = pca['eigenvectors']
 
-        pivot = info['pivot']
-        axis = info['axis']
-        extent = info['extent']
-        ep1 = pivot - axis * extent
-        ep2 = pivot + axis * extent
+        # Smallest eigenvector = normal to the flat contact surface
+        axis_direction = eigenvectors[:, 0].copy()
+        axis_direction /= np.linalg.norm(axis_direction)
+        if np.dot(axis_direction, np.array([0.0, 1.0, 0.0])) < 0:
+            axis_direction = -axis_direction
 
-        original_mesh = self.parts[child_name].copy()
+        # Quality: ratio of second-smallest to smallest eigenvalue (flatter = better)
+        score = eigenvalues[1] / max(eigenvalues[0], 1e-12)
+        if score < 1.2:
+            raise ValueError(f"Cannot detect valid translation axis (score={score:.2f}).")
 
-        hinge = HingeState(
-            base_name=base_name,
-            child_name=child_name,
-            ep1=ep1,
-            ep2=ep2,
-            score=info['score'],
-            original_mesh=original_mesh,
-        )
+        # Axis position = child bbox center
+        child_mesh = self.parts[child_name]
+        bbox_center = child_mesh.bounding_box.centroid
 
-        # Create GUI slider
-        hinge.slider = self.server.gui.add_slider(
-            label=f'Hinge {idx}',
-            min=-np.pi,
-            max=np.pi,
-            step=0.01,
-            initial_value=0.0,
-        )
+        # Extent based on child mesh vertex projections along axis
+        child_centered = child_mesh.vertices - bbox_center
+        projections = child_centered @ axis_direction
+        child_half_extent = (projections.max() - projections.min()) / 2
+        extent = child_half_extent * 1.5
+
+        return {
+            'axis': axis_direction,
+            'pivot': bbox_center,
+            'score': score,
+            'extent': extent,
+            'child_half_extent': child_half_extent,
+        }
+
+    def _setup_joint_gui(self, hinge: HingeState, idx: int) -> None:
+        """Shared setup: arrow visualization, transform controls, and callbacks."""
+        ep1, ep2 = hinge.ep1, hinge.ep2
+        is_prismatic = hinge.joint_type == 'prismatic'
+        prefix = 'translation' if is_prismatic else 'hinge'
+        arrow_color = TRANSLATION_ARROW_COLOR if is_prismatic else ARROW_COLOR
 
         # Create arrow mesh visualization (canonical along +Z, oriented via wxyz)
         length = np.linalg.norm(ep2 - ep1)
@@ -331,24 +372,24 @@ class AnnotationState:
         arrow = _make_canonical_arrow(1.0)
         hinge.arrow_length = length
         hinge.axes_handle = self.server.scene.add_mesh_simple(
-            name=f'_hinge_axis_{idx}',
+            name=f'_{prefix}_axis_{idx}',
             vertices=arrow.vertices * np.array([1.0, 1.0, length]),
             faces=arrow.faces,
-            color=ARROW_COLOR,
+            color=arrow_color,
             wxyz=_direction_to_wxyz(direction),
             position=tuple(ep1),
         )
 
         # Create transform controls (initially hidden)
         hinge.ctrl_ep1 = self.server.scene.add_transform_controls(
-            name=f'/_hinge_ctrl_{idx}_ep1',
+            name=f'/_{prefix}_ctrl_{idx}_ep1',
             scale=0.15,
             disable_rotations=True,
             position=tuple(ep1),
             visible=False,
         )
         hinge.ctrl_ep2 = self.server.scene.add_transform_controls(
-            name=f'/_hinge_ctrl_{idx}_ep2',
+            name=f'/_{prefix}_ctrl_{idx}_ep2',
             scale=0.15,
             disable_rotations=True,
             position=tuple(ep2),
@@ -357,7 +398,7 @@ class AnnotationState:
 
         # Register slider callback
         def _on_slider_update(_, _idx=idx):
-            self._apply_hinge_angle(_idx, self.hinges[_idx].slider.value)
+            self._apply_joint(_idx)
 
         hinge.slider.on_update(_on_slider_update)
 
@@ -366,19 +407,20 @@ class AnnotationState:
             h = self.hinges[_idx]
             h.ep1 = np.array(h.ctrl_ep1.position)
             self._update_hinge_visualization(_idx)
-            self._apply_hinge_angle(_idx, h.slider.value)
+            self._apply_joint(_idx)
 
         def _on_ep2_update(_, _idx=idx):
             h = self.hinges[_idx]
             h.ep2 = np.array(h.ctrl_ep2.position)
             self._update_hinge_visualization(_idx)
-            self._apply_hinge_angle(_idx, h.slider.value)
+            self._apply_joint(_idx)
 
         hinge.ctrl_ep1.on_update(_on_ep1_update)
         hinge.ctrl_ep2.on_update(_on_ep2_update)
 
-        # Per-hinge axis range button group
-        hinge.btn_group = self.server.gui.add_button_group(f'Limits (Hinge {idx})', ['Set Min', 'Set Max', 'Reset'])
+        # Per-joint axis range button group
+        label = 'Translation' if is_prismatic else 'Hinge'
+        hinge.btn_group = self.server.gui.add_button_group(f'Limits ({label} {idx})', ['Set Min', 'Set Max', 'Reset'])
 
         def _on_limit_btn(event, _idx=idx):
             h = self.hinges[_idx]
@@ -390,36 +432,91 @@ class AnnotationState:
                 h.slider.max = h.slider.value
                 h.limit_max = h.slider.value
             elif clicked == 'Reset':
-                h.slider.min = -np.pi
-                h.slider.max = np.pi
+                h.slider.min = h._default_limit_min
+                h.slider.max = h._default_limit_max
                 h.slider.value = 0.0
-                h.limit_min = -np.pi
-                h.limit_max = np.pi
-                self._apply_hinge_angle(_idx, 0.0)
+                h.limit_min = h._default_limit_min
+                h.limit_max = h._default_limit_max
+                self._apply_joint(_idx)
 
         hinge.btn_group.on_click(_on_limit_btn)
 
+    def add_hinge(self, base_name: str, child_name: str) -> str | None:
+        """Detect hinge axis, create visualization and slider."""
+        info = self.detect_hinge_axis(base_name, child_name)
+        idx = len(self.hinges)
+
+        pivot, axis, extent = info['pivot'], info['axis'], info['extent']
+        ep1 = pivot - axis * extent
+        ep2 = pivot + axis * extent
+
+        hinge = HingeState(
+            base_name=base_name,
+            child_name=child_name,
+            ep1=ep1,
+            ep2=ep2,
+            score=info['score'],
+            original_mesh=self.parts[child_name].copy(),
+        )
+        hinge.slider = self.server.gui.add_slider(
+            label=f'Hinge {idx}',
+            min=-np.pi,
+            max=np.pi,
+            step=0.01,
+            initial_value=0.0,
+        )
+        self._setup_joint_gui(hinge, idx)
         self.hinges.append(hinge)
         return f"Hinge {idx}: {base_name} -> {child_name} (score={info['score']:.2f})"
 
-    def _apply_hinge_angle(self, idx: int, angle: float) -> None:
-        """Apply rotation to child mesh around the hinge axis derived from endpoints."""
+    def add_translation(self, base_name: str, child_name: str) -> str | None:
+        """Detect translation axis, create visualization and slider."""
+        info = self.detect_translation_axis(base_name, child_name)
+        idx = len(self.hinges)
+
+        bbox_center, axis, extent = info['pivot'], info['axis'], info['extent']
+        child_half_extent = info['child_half_extent']
+        ep1 = bbox_center - axis * extent
+        ep2 = bbox_center + axis * extent
+        slider_range = child_half_extent * 2
+
+        hinge = HingeState(
+            base_name=base_name,
+            child_name=child_name,
+            ep1=ep1,
+            ep2=ep2,
+            score=info['score'],
+            original_mesh=self.parts[child_name].copy(),
+            joint_type='prismatic',
+            limit_min=-slider_range,
+            limit_max=slider_range,
+            _default_limit_min=-slider_range,
+            _default_limit_max=slider_range,
+        )
+        hinge.slider = self.server.gui.add_slider(
+            label=f'Translation {idx}',
+            min=-slider_range,
+            max=slider_range,
+            step=0.001,
+            initial_value=0.0,
+        )
+        self._setup_joint_gui(hinge, idx)
+        self.hinges.append(hinge)
+        return f"Translation {idx}: {base_name} -> {child_name} (score={info['score']:.2f})"
+
+    def _apply_joint(self, idx: int) -> None:
+        """Apply the current slider value to the child mesh (rotation or translation)."""
         hinge = self.hinges[idx]
-        pivot = hinge.pivot
-        axis = hinge.axis
-
-        # Quaternion for rotation about axis (w, x, y, z)
-        wxyz = trimesh.transformations.quaternion_about_axis(angle, axis)
-        # Position offset so that the rotation is about pivot, not origin:
-        #   world = R @ local + position  =>  position = pivot - R @ pivot
-        R = trimesh.transformations.quaternion_matrix(wxyz)[:3, :3]
-        position = pivot - R @ pivot
-
-        # Update scene (remove + re-add)
-        child_name = hinge.child_name
-        handle = self.handles[child_name]
-        handle.wxyz = wxyz
-        handle.position = position
+        handle = self.handles[hinge.child_name]
+        if hinge.joint_type == 'prismatic':
+            handle.wxyz = np.array([1, 0, 0, 0])
+            handle.position = hinge.slider.value * hinge.axis
+        else:
+            angle = hinge.slider.value
+            wxyz = trimesh.transformations.quaternion_about_axis(angle, hinge.axis)
+            R = trimesh.transformations.quaternion_matrix(wxyz)[:3, :3]
+            handle.wxyz = wxyz
+            handle.position = hinge.pivot - R @ hinge.pivot
 
     def _update_hinge_visualization(self, idx: int) -> None:
         """Update arrow orientation/position/scale when endpoints change."""
@@ -440,7 +537,8 @@ class AnnotationState:
         # Clean up GUI and scene elements
         h.slider.remove()
         h.axes_handle.remove()
-        h.ctrl_ep1.remove()
+        if h.ctrl_ep1 is not None:
+            h.ctrl_ep1.remove()
         h.ctrl_ep2.remove()
         h.btn_group.remove()
         # Restore original child mesh and reset applied transform
@@ -449,7 +547,8 @@ class AnnotationState:
             self.handles[h.child_name].wxyz = np.array([1, 0, 0, 0], dtype=np.float32)
             self.handles[h.child_name].position = np.array([0, 0, 0], dtype=np.float32)
         self._refresh_mesh(h.child_name)
-        return f"Removed hinge: {h.base_name} -> {h.child_name}"
+        joint_label = 'translation' if h.joint_type == 'prismatic' else 'hinge'
+        return f"Removed {joint_label}: {h.base_name} -> {h.child_name}"
 
     def generate_urdf(self) -> Path:
         """Generate a URDF file for all annotated hinges."""
@@ -502,19 +601,29 @@ class AnnotationState:
             abstract_link = ET.SubElement(robot, 'link', name=abstract_name)
             add_inertial(abstract_link)
 
-            # Revolute joint from base to abstract pivot
+            # Joint from base to abstract pivot (revolute or prismatic)
             px, py, pz = pivot
             ax, ay, az = axis
-            revolute = ET.SubElement(robot, 'joint',
-                                     name=f'hinge_{i}', type='revolute')
-            ET.SubElement(revolute, 'parent', link=base_link_name)
-            ET.SubElement(revolute, 'child', link=abstract_name)
-            ET.SubElement(revolute, 'origin', xyz=f'{px} {py} {pz}', rpy='0 0 0')
-            ET.SubElement(revolute, 'axis', xyz=f'{ax} {ay} {az}')
-            ET.SubElement(revolute, 'limit',
+            if hinge.joint_type == 'prismatic':
+                joint_name = f'translation_{i}'
+                joint_type = 'prismatic'
+                effort_val = '500.0'
+                velocity_val = '0.5'
+            else:
+                joint_name = f'hinge_{i}'
+                joint_type = 'revolute'
+                effort_val = '2000.0'
+                velocity_val = '2.0'
+            joint_elem = ET.SubElement(robot, 'joint',
+                                       name=joint_name, type=joint_type)
+            ET.SubElement(joint_elem, 'parent', link=base_link_name)
+            ET.SubElement(joint_elem, 'child', link=abstract_name)
+            ET.SubElement(joint_elem, 'origin', xyz=f'{px} {py} {pz}', rpy='0 0 0')
+            ET.SubElement(joint_elem, 'axis', xyz=f'{ax} {ay} {az}')
+            ET.SubElement(joint_elem, 'limit',
                           lower=str(hinge.limit_min),
                           upper=str(hinge.limit_max),
-                          effort='2000.0', velocity='2.0')
+                          effort=effort_val, velocity=velocity_val)
 
             # Child link
             child_link_name = f'child_{i}'
@@ -621,6 +730,7 @@ class AnnotationState:
                 {
                     'base': h.base_name,
                     'child': h.child_name,
+                    'joint_type': h.joint_type,
                     'axis': h.axis.tolist(),
                     'pivot': h.pivot.tolist(),
                     'limits': [h.limit_min, h.limit_max],
@@ -639,7 +749,8 @@ class AnnotationState:
     def set_edit_endpoints_visible(self, visible: bool) -> None:
         """Toggle visibility of all endpoint transform controls."""
         for h in self.hinges:
-            h.ctrl_ep1.visible = visible
+            if h.ctrl_ep1 is not None:
+                h.ctrl_ep1.visible = visible
             h.ctrl_ep2.visible = visible
 
     # GUI text handle, set after GUI creation
@@ -731,13 +842,14 @@ if __name__ == '__main__':
                 else:
                     event.client.add_notification(title='Nothing to undo', body='No delete history.', loading=False)
 
-        with server.gui.add_folder('Hinge'):
-            hinge_text = server.gui.add_text('Hinges', '0', disabled=True)
+        with server.gui.add_folder('Joints'):
+            hinge_text = server.gui.add_text('Joints', '0', disabled=True)
 
             def _update_hinge_text() -> None:
                 lines = [str(len(state.hinges))]
                 for i, h in enumerate(state.hinges):
-                    lines.append(f'  {i}: {h.base_name} -> {h.child_name} (score={h.score:.2f})')
+                    prefix = '[T]' if h.joint_type == 'prismatic' else '[R]'
+                    lines.append(f'  {prefix} {i}: {h.base_name} -> {h.child_name} (score={h.score:.2f})')
                 hinge_text.value = '\n'.join(lines)
 
             edit_cb = server.gui.add_checkbox('Edit Endpoints', initial_value=False)
@@ -746,10 +858,7 @@ if __name__ == '__main__':
             def _(_) -> None:
                 state.set_edit_endpoints_visible(edit_cb.value)
 
-            add_hinge_btn = server.gui.add_button('Add Hinge')
-
-            @add_hinge_btn.on_click
-            def _(event: viser.GuiEvent) -> None:
+            def _add_joint(event: viser.GuiEvent, add_fn, label: str) -> None:
                 if len(state.selected) != 2:
                     event.client.add_notification(
                         title='Error', body='Select exactly 2 parts.', loading=False)
@@ -758,11 +867,10 @@ if __name__ == '__main__':
                 child_name = state.selected[0]
                 base_name = state.selected[1]
                 try:
-                    result = state.add_hinge(base_name, child_name)
-                    event.client.add_notification(title='Hinge Added', body=result, loading=False)
+                    result = add_fn(base_name, child_name)
+                    event.client.add_notification(title=f'{label} Added', body=result, loading=False)
                     _update_hinge_text()
                     state.clear_selection()
-                    # If edit endpoints is on, make the new hinge controls visible
                     if edit_cb.value:
                         h = state.hinges[-1]
                         h.ctrl_ep1.visible = True
@@ -770,7 +878,19 @@ if __name__ == '__main__':
                 except ValueError as e:
                     event.client.add_notification(title='Detection Failed', body=str(e), loading=False)
 
-            remove_hinge_btn = server.gui.add_button('Remove Last Hinge')
+            add_hinge_btn = server.gui.add_button('Add Hinge')
+
+            @add_hinge_btn.on_click
+            def _(event: viser.GuiEvent) -> None:
+                _add_joint(event, state.add_hinge, 'Hinge')
+
+            add_translation_btn = server.gui.add_button('Add Translation')
+
+            @add_translation_btn.on_click
+            def _(event: viser.GuiEvent) -> None:
+                _add_joint(event, state.add_translation, 'Translation')
+
+            remove_hinge_btn = server.gui.add_button('Remove Last Joint')
 
             @remove_hinge_btn.on_click
             def _(event: viser.GuiEvent) -> None:
