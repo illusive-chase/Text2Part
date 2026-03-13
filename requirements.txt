@@ -59,3 +59,6 @@ gradio>=6.3.0
 # xpart
 easydict>=1.13
 scikit-learn>=1.8.0
+
+# auto_merge
+anthropic>=0.40.0
